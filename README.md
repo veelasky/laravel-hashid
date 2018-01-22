@@ -10,7 +10,7 @@ Automatic HashId generator for your eloquent model.
 composer require veelasky/laravel-hashid
 ```
 
-ith laravel package auto discovery, this will automatically add this package to your laravel application.
+With laravel package auto discovery, this will automatically add this package to your laravel application.
 
 Simply add `HashableId` trait on any of your eloquent model you are intending to use with HashId.
 
