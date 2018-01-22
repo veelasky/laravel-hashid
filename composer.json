@@ -1,0 +1,16 @@
+{
+    "name": "veelasky/laravel-hashid",
+    "description": "HashId Implementation on Laravel Eloquent ORM",
+    "type": "laravel-plugin",
+    "require": {
+        "hashids/hashids": "^2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rifki Alhuraibi",
+            "email": "veelasky@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
