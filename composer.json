@@ -1,10 +1,7 @@
 {
     "name": "veelasky/laravel-hashid",
     "description": "HashId Implementation on Laravel Eloquent ORM",
-    "type": "laravel-plugin",
-    "require": {
-        "hashids/hashids": "^2.0"
-    },
+    "keywords": [ "laravel", "lumen", "eloquent", "hashid", "hashids" ],
     "license": "MIT",
     "authors": [
         {
@@ -12,5 +9,23 @@
             "email": "veelasky@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "require": {
+        "php" : ">=7.0.0",
+        "hashids/hashids": "^2.0",
+        "illuminate/contracts": "^5.5",
+        "illuminate/support": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Veelasky\\LaravelHashId\\": "src"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel" : {
+            "providers" : [
+                "Veelasky\\LaravelHashId\\HashIdServiceProvider"
+            ]
+        }
+    }
 }
