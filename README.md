@@ -40,8 +40,7 @@ $user->hash;
 $user = User::byHash($hash); // $hash: insert any hash that you want to check.
 
 // querying for user with specific hash and throw EloquentModelNotFound exception
-$user = User::byHashOrFail ($hash)
-
+$user = User::byHashOrFail($hash);
 
 // convert id to hash from User static instance;
 User::idToHash($id);
