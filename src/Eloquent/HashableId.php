@@ -35,7 +35,7 @@ trait HashableId
      */
     public function scopeByHashOrFail($query, $hash)
     {
-        return $query->where($this->getKeyName(), $this->hashIds()->decode($hash))
+        return $query->where($this->getKeyName(), self::hashToId($hash))
             ->firstOrFail();
     }
 
