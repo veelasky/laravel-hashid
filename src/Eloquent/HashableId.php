@@ -21,7 +21,10 @@ trait HashableId
      */
     public function scopeByHash($query, $hash)
     {
-        return $query->where($this->getKeyName(), $this->hashIds()->decode($hash))
+        if (empty(self::hashToId($hash)))
+            return null;
+
+        return $query->where($this->getKeyName(), self::hashToId($hash))
             ->first();
     }
 
