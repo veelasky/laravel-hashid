@@ -12,16 +12,17 @@
     "require": {
         "php" : ">=7.0.0",
         "hashids/hashids": "^2.0",
-        "illuminate/contracts": "^5.5|^6.0",
-        "illuminate/config": "^5.5|^6.0",
-        "illuminate/support": "^5.5|^6.0"
+        "illuminate/contracts": ">=5.5",
+        "illuminate/config": ">=5.5",
+        "illuminate/support": ">=5.5"
     },
     "autoload": {
         "psr-4": {
             "Veelasky\\LaravelHashId\\": "src"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "laravel" : {
             "providers" : [
