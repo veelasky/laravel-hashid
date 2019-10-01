@@ -24,7 +24,7 @@ trait HashableId
      */
     public function scopeByHash($query, $hash)
     {
-        return $query->where($this->getKeyName(), $this->hashIds()->decode($hash))
+        return $query->where($this->getKeyName(), self::hashToId($hash))
             ->first();
     }
 
@@ -38,7 +38,7 @@ trait HashableId
      */
     public function scopeByHashOrFail($query, $hash)
     {
-        return $query->where($this->getKeyName(), $this->hashIds()->decode($hash))
+        return $query->where($this->getKeyName(), self::hashToId($hash))
             ->firstOrFail();
     }
 
@@ -72,7 +72,8 @@ trait HashableId
      * @param $id
      * @return mixed
      */
-    public static function idToHash($id) {
+    public static function idToHash($id)
+    {
         return with(new static)->hashIds()->encode($id);
     }
 

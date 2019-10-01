@@ -36,4 +36,3 @@ class HashIdServiceProvider extends LaravelServiceProvider
         $this->app->alias('app.hashid', RepositoryContract::class);
     }
 }
-

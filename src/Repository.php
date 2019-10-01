@@ -28,4 +28,3 @@ class Repository extends ConfigRepository
         return $hashids;
     }
 }
-
