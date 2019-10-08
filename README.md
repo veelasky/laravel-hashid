@@ -48,3 +48,19 @@ User::idToHash($id);
 // convert hash to id from User static instance;
 User::hashToId($hash);
 ```
+
+#### Rules / Validation
+```php
+use Veelasky\LaravelHashId\Rules\ExistsByHash;
+
+...
+
+$this->validate($this->request, [
+    'name' => 'required',
+    'description' => 'nullable',
+    'products.*.hash' => ['required', new ExistsByHash(Product::class)],
+]);
+
+...
+```
+`Product::class` is an eloquent model that use `HashableId` Trait.  
