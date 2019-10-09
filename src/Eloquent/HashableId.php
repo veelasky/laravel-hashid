@@ -8,6 +8,9 @@ use Veelasky\LaravelHashId\Repository as HashRepository;
  * Eloquent Model Hashable Id.
  *
  * @author      veelasky <veelasky@gmail.com>
+ *
+ * @method static \Illuminate\Database\Eloquent\Model|object|static|null byHash(string $hash)
+ * @method static \Illuminate\Database\Eloquent\Model|static byHashOrFail(string $hash)
  */
 trait HashableId
 {
