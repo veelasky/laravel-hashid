@@ -108,6 +108,6 @@ trait HashableId
      */
     protected function makeHashedIdSalt()
     {
-        return substr(strrev(self::class), 0, 4).substr(config('app.key', 'lara'), -4);
+        return substr(static::class, -4).substr(config('app.key', 'lara'), -4);
     }
 }
