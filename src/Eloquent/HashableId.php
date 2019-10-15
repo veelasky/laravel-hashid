@@ -94,10 +94,20 @@ trait HashableId
         if ($repository->has($this->getTable())) {
             return $repository->get($this->getTable());
         }
-        $salted = substr(strrev(self::class), 0, 4).substr(env('APP_KEY'), 0, 4);
+
         // ... create a new hashid instance if it not existed
-        $hash = $repository->make($this->getTable(), $salted);
+        $hash = $repository->make($this->getTable(), $this->makeHashedIdSalt());
 
         return $hash;
+    }
+
+    /**
+     * Make a unique hash for the trait-using class.
+     *
+     * @return string
+     */
+    protected function makeHashedIdSalt()
+    {
+        return substr(strrev(self::class), 0, 4).substr(config('app.key', 'lara'), -4);
     }
 }
