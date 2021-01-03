@@ -9,6 +9,7 @@ use Veelasky\LaravelHashId\Repository as HashRepository;
  *
  * @author      veelasky <veelasky@gmail.com>
  *
+ * @poperty string $hash
  * @method static \Illuminate\Database\Eloquent\Model|object|static|null byHash(string $hash)
  * @method static \Illuminate\Database\Eloquent\Model|static byHashOrFail(string $hash)
  */
