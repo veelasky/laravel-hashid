@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use Veelasky\LaravelHashId\Facade;
 use Veelasky\LaravelHashId\Repository;
 
 class ProviderTest extends TestCase
@@ -18,5 +19,10 @@ class ProviderTest extends TestCase
     {
         $this->assertEquals(8, config('hashid.hash_length'));
         $this->assertEquals('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', config('hashid.hash_alphabet'));
+    }
+
+    public function test_facade()
+    {
+        $this->assertEquals(Facade::get('default'), app('app.hashid')->get('default'));
     }
 }
