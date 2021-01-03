@@ -49,8 +49,14 @@ jobs:
       - name: Test
         run: ./vendor/bin/phpunit
 
-      - name: Upload to CodeCov.io
+      - name: send coverage to codecov.io
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml
+          file: ./clover.xml
+
+      - name: send coverage to codacy.com
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: clover.xml
