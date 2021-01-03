@@ -42,9 +42,9 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
-          run: |
-            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-            composer update --prefer-dist --no-interaction --no-suggest
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction --no-suggest
 
       - name: Test
         run: phpunit
