@@ -16,7 +16,7 @@ class Repository extends ConfigRepository implements RepositoryContract
     /** {@inheritDoc} */
     public function make($key, $salt)
     {
-        $hashids = new Hashids($salt, 8, 'abcdefgihjklmnopqrstuvwxyz0123456789');
+        $hashids = new Hashids($salt, 8, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
         $this->set($key, $hashids);
 
         return $hashids;
