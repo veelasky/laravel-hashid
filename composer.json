@@ -12,14 +12,24 @@
     "require": {
         "php" : "^7.2 || ^8.0",
         "hashids/hashids": "^4.0",
-        "illuminate/contracts": ">=5.5",
-        "illuminate/config": ">=5.5",
-        "illuminate/support": ">=5.5",
-        "illuminate/validation": ">=5.5"
+        "illuminate/contracts": ">=6.18",
+        "illuminate/config": ">=6.18",
+        "illuminate/support": ">=6.18",
+        "illuminate/validation": ">=6.18",
+        "illuminate/database": ">=6.18"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=8.5",
+        "orchestra/testbench": ">=4.0"
     },
     "autoload": {
         "psr-4": {
             "Veelasky\\LaravelHashId\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
@@ -28,7 +38,10 @@
         "laravel" : {
             "providers" : [
                 "Veelasky\\LaravelHashId\\HashIdServiceProvider"
-            ]
+            ],
+            "aliases" : {
+                "HashId" : "Veelasky\\LaravelHashId\\Facade"
+            }
         }
     }
 }

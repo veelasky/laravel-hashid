@@ -5,11 +5,6 @@ namespace Veelasky\LaravelHashId;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Veelasky\LaravelHashId\Contracts\Repository as RepositoryContract;
 
-/**
- * HashId Service Provider.
- *
- * @author      veelasky <veelasky@gmail.com>
- */
 class HashIdServiceProvider extends LaravelServiceProvider
 {
     /**
@@ -19,7 +14,16 @@ class HashIdServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->app['app.hashid']->make('root', env('APP_KEY'));
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config' => $this->app->basePath('config'),
+            ], 'laravel-hashid-config');
+        }
+
+        $this->app['app.hashid']->make(
+            'default',
+            substr($this->app['config']->get('app.key', $this->app['config']->get('hashid.hash_alphabet')), 8, 4).substr($this->app['config']->get('app.key', 'lara'), -4)
+        );
     }
 
     /**
@@ -27,10 +31,13 @@ class HashIdServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('app.hashid', function () {
-            $repository = new Repository();
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/hashid.php',
+            'hashid'
+        );
 
-            return $repository;
+        $this->app->singleton('app.hashid', function () {
+            return new Repository();
         });
         $this->app->alias('app.hashid', Repository::class);
         $this->app->alias('app.hashid', RepositoryContract::class);

@@ -30,7 +30,7 @@ class ExistsByHash implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->model::query()->where('id', $this->model::HashtoId($value))->count() > 0;
+        return $this->model::query()->where('id', $this->model::hashToId($value))->count() > 0;
     }
 
     /**
