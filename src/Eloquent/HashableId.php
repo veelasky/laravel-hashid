@@ -2,16 +2,14 @@
 
 namespace Veelasky\LaravelHashId\Eloquent;
 
-use Veelasky\LaravelHashId\Repository as HashRepository;
+use LogicException;
+use Veelasky\LaravelHashId\Repository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Eloquent Model Hashable Id.
+ * Eloquent Model HashableId trait.
  *
- * @author      veelasky <veelasky@gmail.com>
- *
- * @poperty string $hash
- * @method static \Illuminate\Database\Eloquent\Model|object|static|null byHash(string $hash)
- * @method static \Illuminate\Database\Eloquent\Model|static byHashOrFail(string $hash)
+ * @property string $hash
  */
 trait HashableId
 {
@@ -21,26 +19,38 @@ trait HashableId
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string                                $hash
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeByHash($query, $hash)
+    public function scopeByHash(Builder $query, string $hash): Builder
     {
-        return $query->where($this->getKeyName(), self::hashToId($hash))
-            ->first();
+        return  $this->shouldHashPersist()
+            ? $query->where($this->getHashColumnName(), $hash)
+            : $query->where($this->getKeyName(), self::hashToId($hash));
     }
 
     /**
-     * Get Model by hashed key or fail.
+     * Get Model by hash.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string                                $hash
+     * @param $hash
      *
-     * @return mixed
+     * @return self|null
      */
-    public function scopeByHashOrFail($query, $hash)
+    public static function byHash($hash): ?self
     {
-        return $query->where($this->getKeyName(), self::hashToId($hash))
-            ->firstOrFail();
+        return self::query()->byHash($hash)->first();
+    }
+
+    /**
+     * Get model by hash or fail.
+     *
+     * @param $hash
+     * @return self
+     *
+     * @throw \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public static function byHashOrFail($hash): self
+    {
+        return self::query()->byHash($hash)->firstOrFail();
     }
 
     /**
@@ -48,67 +58,89 @@ trait HashableId
      *
      * @return string
      */
-    public function getHashAttribute()
+    public function getHashAttribute(): string
     {
-        return $this->hashIds()
-            ->encode($this->getOriginal($this->getKeyName()));
+        return $this->getHashIdRepository()
+            ->idToHash($this->getKey(), static::class);
     }
 
     /**
      * Decode Hash to ID for the model.
      *
-     * @param $hash
-     * @return mixed
+     * @param string $hash
+     * @return int|null
      */
-    public static function hashToId($hash)
+    public static function hashToId(string $hash): ?int
     {
-        $result = with(new static)->hashIds()->decode($hash);
-
-        return (is_array($result) and isset($result[0])) ? $result[0] : null;
+        return (new static)
+           ->getHashIdRepository()
+           ->hashToId($hash, static::class);
     }
 
     /**
      * Encode Id to Hash for the model.
      *
      * @param $id
-     * @return mixed
+     * @return string
      */
-    public static function idToHash($id)
+    public static function idToHash($id): string
     {
-        return with(new static)->hashIds()->encode($id);
+        return (new static)
+            ->getHashIdRepository()
+            ->idToHash($id, static::class);
     }
 
     /**
-     * Get HashIds Implementation.
+     * Determine if hash should persist in database.
      *
-     * @return \Hashids\Hashids
+     * @return bool
      */
-    protected function hashIds()
+    public function shouldHashPersist(): bool
     {
-        /*
-         * HashId Repository class.
-         *
-         * @var \Veelasky\LaravelHashId\Repository
-         */
-        $repository = app(HashRepository::class);
-        // if it already exists on repository let's throw them
-        if ($repository->has($this->getTable())) {
-            return $repository->get($this->getTable());
-        }
-
-        // ... create a new hashid instance if it not existed
-        $hash = $repository->make($this->getTable(), $this->makeHashedIdSalt());
-
-        return $hash;
+        return property_exists($this, 'shouldHashPersist')
+            ? $this->shouldHashPersist
+            : false;
     }
 
     /**
-     * Make a unique hash for the trait-using class.
+     * Get HashId column name.
      *
      * @return string
      */
-    protected function makeHashedIdSalt()
+    public function getHashColumnName(): string
     {
-        return substr(static::class, -4).substr(config('app.key', 'lara'), -4);
+        return property_exists($this, 'hashColumnName')
+            ? $this->hashColumnName
+            : 'hashid';
+    }
+
+    /**
+     * register boot trait method.
+     *
+     * @return void
+     */
+    public static function bootHashableId()
+    {
+        self::created(function ($model) {
+            if ($model->shouldHashPersist()) {
+                $model->{$model->getHashColumnName()} = self::idToHash($model->getKey());
+
+                $model->save();
+            }
+        });
+    }
+
+    /**
+     * Get HashId Repository.
+     *
+     * @return \Veelasky\LaravelHashId\Repository
+     */
+    protected function getHashIdRepository(): Repository
+    {
+        if ($this->getKeyType() !== 'int') {
+            throw new LogicException('Invalid implementation of HashId, only works with `int` value of `keyType`');
+        }
+
+        return app('app.hashid');
     }
 }

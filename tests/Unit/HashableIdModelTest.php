@@ -1,0 +1,141 @@
+<?php
+
+namespace Tests\Unit;
+
+use Tests\TestCase;
+use Illuminate\Support\Str;
+use Tests\Models\HashModel;
+use Tests\Models\PersistingModel;
+use Tests\Models\IllegalHashModel;
+use Veelasky\LaravelHashId\Repository;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Veelasky\LaravelHashId\Rules\ExistsByHash;
+use Tests\Models\PersistingModelWithCustomName;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+class HashableIdModelTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_illegal_hash_model()
+    {
+        $this->expectExceptionMessage('Invalid implementation of HashId, only works with `int` value of `keyType`');
+        IllegalHashModel::idToHash(1);
+    }
+
+    public function test_hash_model()
+    {
+        $randomId = rand(1, 1000);
+        $hashedId = HashModel::idToHash($randomId);
+
+        // assert using model.
+        $this->assertEquals($randomId, HashModel::hashToId($hashedId));
+
+        // assert using repo.
+        $this->assertEquals($randomId, $this->getRepository()->hashToId($hashedId, HashModel::class));
+        $this->assertEquals($hashedId, $this->getRepository()->idToHash($randomId, HashModel::class));
+    }
+
+    public function test_model_not_persisting()
+    {
+        $m = new HashModel();
+        $m->save();
+
+        $this->assertDatabaseMissing($m->getTable(), [
+            'hashid' => HashModel::idToHash($m->id),
+        ]);
+        $this->assertDatabaseHas($m->getTable(), [
+            'id' => $m->id,
+        ]);
+
+        $this->assertEquals(HashModel::idToHash($m->getKey()), $m->hash);
+
+        $t = HashModel::byHash($m->hash);
+        $this->assertEquals($t->id, $m->id);
+
+        $this->expectException(ModelNotFoundException::class);
+        HashModel::byHashOrFail(Str::random(8));
+    }
+
+    public function test_model_persistence()
+    {
+        $m = new PersistingModel();
+        $m->save();
+
+        $this->assertDatabaseHas($m->getTable(), [
+            'id' => $m->id,
+            'hashid' => $m->hash,
+        ]);
+
+        $this->assertDatabaseMissing($m->getTable(), [
+            'id' => $m->id,
+            'custom_name' => $m->hash,
+        ]);
+
+        $this->assertEquals($m->hashid, $m->hash);
+
+        $t = PersistingModel::byHash($m->hash);
+        $this->assertEquals($t->id, $m->id);
+
+        $this->expectException(ModelNotFoundException::class);
+        PersistingModel::byHashOrFail(Str::random(8));
+    }
+
+    public function test_model_persistence_with_column_name()
+    {
+        $m = new PersistingModelWithCustomName();
+        $m->save();
+
+        $this->assertDatabaseHas($m->getTable(), [
+            'id' => $m->id,
+            'custom_name' => $m->hash,
+        ]);
+
+        $this->assertDatabaseMissing($m->getTable(), [
+            'id' => $m->id,
+            'hashid' => $m->hash,
+        ]);
+
+        $this->assertEquals($m->custom_name, $m->hash);
+
+        $t = PersistingModelWithCustomName::byHash($m->hash);
+        $this->assertEquals($t->id, $m->id);
+
+        $this->expectException(ModelNotFoundException::class);
+        PersistingModelWithCustomName::byHashOrFail(Str::random(8));
+    }
+
+    public function test_validation_rules()
+    {
+        $m = new HashModel();
+        $m->save();
+
+        $this->assertDatabaseHas($m->getTable(), [
+            'id' => $m->id,
+        ]);
+
+        $validator = Validator::make([
+            'id' => $m->hash,
+        ], [
+            'id' => [new ExistsByHash(HashModel::class)],
+        ]);
+        $this->assertFalse($validator->fails());
+
+        $validator = Validator::make([
+            'id' => Str::random(),
+        ], [
+            'id' => [new ExistsByHash(HashModel::class)],
+        ]);
+        $this->assertTrue($validator->fails());
+
+        $this->expectException(ValidationException::class);
+        $validator->validate();
+    }
+
+    protected function getRepository(): Repository
+    {
+        return app('app.hashid');
+    }
+}
