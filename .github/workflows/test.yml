@@ -6,14 +6,13 @@ jobs:
     strategy:
       matrix:
         php: [ 7.3, 7.4, 8.0]
-        laravel: [8.*, 7.*, 6.*]
+        laravel: [8.*, 7.*]
         include:
           - laravel: 8.*
             testbench: 6.*
           - laravel: 7.*
             testbench: ^5.2
-          - laravel: 6.*
-            testbench: 4.*
+            
     name: php ${{ matrix.php }} on laravel ${{ matrix.laravel }}
     steps:
       - name: Checkout code
