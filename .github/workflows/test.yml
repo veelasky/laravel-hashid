@@ -47,7 +47,7 @@ jobs:
           composer update --prefer-dist --no-interaction --no-suggest
 
       - name: Test
-        run: phpunit
+        run: ./vendor/bin/phpunit
 
       - name: Upload to CodeCov.io
         uses: codecov/codecov-action@v1
