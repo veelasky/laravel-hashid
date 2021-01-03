@@ -38,7 +38,10 @@
         "laravel" : {
             "providers" : [
                 "Veelasky\\LaravelHashId\\HashIdServiceProvider"
-            ]
+            ],
+            "aliases" : {
+                "HashId" : "Veelasky\\LaravelHashId\\Facade"
+            }
         }
     }
 }
