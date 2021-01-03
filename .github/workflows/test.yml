@@ -24,7 +24,7 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           coverage: xdebug
-          extensions: bcmath
+          extensions: bcmath, sqlite
 
       - name: Get Composer Cache Directory
         id: composer-cache
