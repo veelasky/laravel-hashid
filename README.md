@@ -41,11 +41,11 @@ $user = User::find(1);     // instance of user.
 $user->hash;               // generate HashId.
 
 // Database operation
-$user = User::byHash($hash);         // get user by hashed id.
-$user = User::byHashOrFail($hash);   // get user by hashed id, and throw ModelNotFoundException if not present.
-User::idToHash($id);                 // get hashed id from the primary key.
-User::hashToId($hash);               // get ID from hashed string.
-User::query()->byHash($hash);        // query scope with `byHash` method.
+$user = User::byHash($hash);       // get user by hashed id.
+$user = User::byHashOrFail($hash); // get user by hashed id, and throw ModelNotFoundException if not present.
+User::idToHash($id);               // get hashed id from the primary key.
+User::hashToId($hash);             // get ID from hashed string.
+User::query()->byHash($hash);      // query scope with `byHash` method.
 ```
 
 By default, all hash calculation will be calculated at runtime, but sometime you want to persist the hashed id to the database.
