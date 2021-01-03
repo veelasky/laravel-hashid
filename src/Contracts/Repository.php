@@ -11,4 +11,13 @@ use Illuminate\Contracts\Config\Repository as ConfigInterface;
  */
 interface Repository extends ConfigInterface
 {
+    /**
+     * Create new HashId Instance.
+     *
+     * @param string $key
+     * @param string $salt
+     *
+     * @return \Hashids\Hashids;
+     */
+    public function make($key, $salt);
 }
