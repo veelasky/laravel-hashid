@@ -80,14 +80,14 @@ trait HashableId
     /**
      * Encode Id to Hash for the model.
      *
-     * @param $id
+     * @param int $primaryKey
      * @return string
      */
-    public static function idToHash($id): string
+    public static function idToHash(int $primaryKey): string
     {
         return (new static)
             ->getHashIdRepository()
-            ->idToHash($id, static::class);
+            ->idToHash($primaryKey, static::class);
     }
 
     /**

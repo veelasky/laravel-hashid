@@ -4,7 +4,6 @@ namespace Veelasky\LaravelHashId;
 
 use ArrayAccess;
 use Hashids\Hashids;
-use Illuminate\Support\Arr;
 use Veelasky\LaravelHashId\Contracts\Repository as RepositoryContract;
 
 class Repository implements RepositoryContract, ArrayAccess
@@ -26,14 +25,13 @@ class Repository implements RepositoryContract, ArrayAccess
     public function hashToId(string $hash, string $key = 'default'): ?int
     {
         $result = $this->get($key)->decode($hash);
-
-        return Arr::first($result);
+        return $result[0];
     }
 
     /** {@inheritdoc} */
-    public function idToHash(int $id, string $key = 'default'): string
+    public function idToHash(int $idKey, string $key = 'default'): string
     {
-        return $this->get($key)->encode($id);
+        return $this->get($key)->encode($idKey);
     }
 
     /** {@inheritdoc} */
@@ -68,7 +66,7 @@ class Repository implements RepositoryContract, ArrayAccess
     /** {@inheritdoc} */
     public function has(string $key): bool
     {
-        return Arr::has($this->hashes, $key);
+        return array_key_exists($key, $this->hashes);
     }
 
     /** {@inheritdoc} */

@@ -1,10 +1,9 @@
-# Laravel HashId
+## Laravel HashId
 ![Test](https://github.com/veelasky/laravel-hashid/workflows/Test/badge.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3e929b5327a9453bb0da5cbf2ecb8794)](https://app.codacy.com/gh/veelasky/laravel-hashid?utm_source=github.com&utm_medium=referral&utm_content=veelasky/laravel-hashid&utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/veelasky/laravel-hashid/branch/master/graph/badge.svg?token=t95ymsMyDX)](https://codecov.io/gh/veelasky/laravel-hashid)
 [![Latest Stable Version](https://poser.pugx.org/veelasky/laravel-hashid/v)](//packagist.org/packages/veelasky/laravel-hashid)
 [![Total Downloads](https://poser.pugx.org/veelasky/laravel-hashid/downloads)](//packagist.org/packages/veelasky/laravel-hashid)
-[![composer.lock](https://poser.pugx.org/veelasky/laravel-hashid/composerlock)](//packagist.org/packages/veelasky/laravel-hashid)
 [![Dependents](https://poser.pugx.org/veelasky/laravel-hashid/dependents)](//packagist.org/packages/veelasky/laravel-hashid)
 [![License](https://poser.pugx.org/veelasky/laravel-hashid/license)](//packagist.org/packages/veelasky/laravel-hashid)
 
@@ -12,13 +11,13 @@ Automatic HashId generator for your eloquent model.
 
 ### Install
 
-```
+```bash
 composer require veelasky/laravel-hashid
 ```
 
 With laravel package auto discovery, this will automatically add this package to your laravel application.
 
-### TLDR;
+### TLDR
 
 Simply add `HashableId` trait on any of your eloquent model you are intending to use with HashId.
 

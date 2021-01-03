@@ -62,10 +62,10 @@ interface Repository
     /**
      * Convert id to Hash.
      *
-     * @param int         $id
+     * @param int         $idKey
      * @param string|null $key
      *
      * @return string
      */
-    public function idToHash(int $id, string $key = 'default'): string;
+    public function idToHash(int $idKey, string $key = 'default'): string;
 }
