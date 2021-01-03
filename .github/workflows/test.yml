@@ -1,0 +1,56 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  phpunit:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php: [ 7.2, 7.3, 7.4, 8.0]
+        laravel: [8.*, 7.*, 6.*]
+        include:
+          - laravel: 8.*
+            testbench: 6.*
+          - laravel: 7.*
+            testbench: ^5.2
+          - laravel: 6.*
+            testbench: 4.*
+    name: php ${{ matrix.php }} on laravel ${{ matrix.laravel }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}-php${{ matrix.php }}-L${{ matrix.laravel }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}-php${{ matrix.php }}
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+          run: |
+            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+            composer update --prefer-dist --no-interaction --no-suggest
+
+      - name: Test
+        run: phpunit
+
+      - name: Upload to CodeCov.io
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
