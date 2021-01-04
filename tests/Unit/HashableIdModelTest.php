@@ -132,6 +132,30 @@ class HashableIdModelTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $validator->validate();
+
+    }
+
+    public function test_validation_on_persisting_model()
+    {
+        $m = new PersistingModel();
+        $m->save();
+
+        $validator = Validator::make([
+            $m->getHashColumnName() => $m->hash,
+        ], [
+            $m->getHashColumnName() => [new ExistsByHash(PersistingModel::class)],
+        ]);
+        $this->assertFalse($validator->fails());
+
+        $validator = Validator::make([
+            $m->getHashColumnName() => Str::random(),
+        ], [
+            $m->getHashColumnName() => [new ExistsByHash(PersistingModel::class)],
+        ]);
+        $this->assertTrue($validator->fails());
+
+        $this->expectException(ValidationException::class);
+        $validator->validate();
     }
 
     protected function getRepository(): Repository
