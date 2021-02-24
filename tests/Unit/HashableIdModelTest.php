@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Tests\Models\HashModel;
+use Tests\Models\CustomKeyModel;
 use Tests\Models\PersistingModel;
 use Tests\Models\IllegalHashModel;
 use Veelasky\LaravelHashId\Repository;
@@ -132,7 +133,6 @@ class HashableIdModelTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $validator->validate();
-
     }
 
     public function test_validation_on_persisting_model()
@@ -156,6 +156,15 @@ class HashableIdModelTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $validator->validate();
+    }
+
+    public function test_custom_key_model()
+    {
+        $m = new CustomKeyModel();
+        $m->save();
+
+        $this->assertEquals('somethingUnique', $m->getHashKey());
+        $this->assertEquals(CustomKeyModel::idToHash($m->getKey()), $m->hash);
     }
 
     protected function getRepository(): Repository
