@@ -61,7 +61,7 @@ trait HashableId
     public function getHashAttribute(): string
     {
         return $this->getHashIdRepository()
-            ->idToHash($this->getKey(), static::class);
+            ->idToHash($this->getKey(), $this->getHashKey());
     }
 
     /**
@@ -74,7 +74,19 @@ trait HashableId
     {
         return (new static)
            ->getHashIdRepository()
-           ->hashToId($hash, static::class);
+           ->hashToId($hash, (new static)->getHashKey());
+    }
+
+    /**
+     * Get Hash Key/.
+     *
+     * @return string
+     */
+    public function getHashKey(): string
+    {
+        return property_exists($this, 'hashKey')
+            ? $this->hashKey
+            : static::class;
     }
 
     /**
@@ -87,7 +99,7 @@ trait HashableId
     {
         return (new static)
             ->getHashIdRepository()
-            ->idToHash($primaryKey, static::class);
+            ->idToHash($primaryKey, (new static)->getHashKey());
     }
 
     /**

@@ -25,6 +25,7 @@ class Repository implements RepositoryContract, ArrayAccess
     public function hashToId(string $hash, string $key = 'default'): ?int
     {
         $result = $this->get($key)->decode($hash);
+
         return $result[0] ?? null;
     }
 
