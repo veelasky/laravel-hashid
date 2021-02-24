@@ -91,11 +91,27 @@ HashId::idToHash($id, User::class)        // same as User::idToHash($hash);
 However you can opt-out to not using any eloquent model or implementing your own logic to the repository.
 
 ```php
-
 HashId::make($key, $salt);              // will return \HashId\HashId class.
 
 // once you instantiated the object, you can retrieve it on your next operation
 HashId::get($key);
+```
+
+If you're using single table inheritance model, where you want to has the same calculated hash across all inherited models, use `$hashKey` property, this will result the calculation remain the same across all inherited model.
+
+```php
+class User extends Model {
+    protected $hashKey = 'somethingUnique';
+}
+
+class Customer extends Customer {
+
+}
+
+$customer = Customer::find(1);
+$user = User::find(1);
+
+$user->hash; // will be equal to $customer->hash
 ```
 
 You can also specify the length and characters of the hashed Id with `HASHID_LENGTH` and `HASHID_ALPHABET` environment variable respectively, or you can publish the configuration file using this command:
@@ -120,3 +136,7 @@ Validator::make([
 ]);
 ...
 ```
+
+#### License
+
+MIT License
