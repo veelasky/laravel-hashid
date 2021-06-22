@@ -78,7 +78,7 @@ trait HashableId
     }
 
     /**
-     * Get Hash Key/.
+     * Get Hash Key.
      *
      * @return string
      */
@@ -146,11 +146,19 @@ trait HashableId
      * Get HashId Repository.
      *
      * @return \Veelasky\LaravelHashId\Repository
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function getHashIdRepository(): Repository
     {
         if ($this->getKeyType() !== 'int') {
             throw new LogicException('Invalid implementation of HashId, only works with `int` value of `keyType`');
+        }
+
+        // get custom salt for the model (if exists)
+        if (method_exists($this, 'getHashIdSalt')) {
+            // force the repository to make a new instance of hashid.
+            app('app.hashid')->make($this->getHashKey(), $this->getHashIdSalt());
         }
 
         return app('app.hashid');

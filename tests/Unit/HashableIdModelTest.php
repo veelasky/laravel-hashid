@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Support\Str;
 use Tests\Models\HashModel;
 use Tests\Models\CustomKeyModel;
+use Tests\Models\CustomSaltModel;
 use Tests\Models\PersistingModel;
 use Tests\Models\IllegalHashModel;
 use Veelasky\LaravelHashId\Repository;
@@ -165,6 +166,12 @@ class HashableIdModelTest extends TestCase
 
         $this->assertEquals('somethingUnique', $m->getHashKey());
         $this->assertEquals(CustomKeyModel::idToHash($m->getKey()), $m->hash);
+    }
+
+    public function test_custom_salt_model()
+    {
+        $this->getRepository()->make('custom', (new CustomSaltModel())->getHashIdSalt());
+        $this->assertEquals(CustomSaltModel::idToHash(1), $this->getRepository()->idToHash(1, 'custom'));
     }
 
     protected function getRepository(): Repository
