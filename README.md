@@ -104,7 +104,7 @@ class User extends Model {
     protected $hashKey = 'somethingUnique';
 }
 
-class Customer extends Customer {
+class Customer extends User {
 
 }
 
