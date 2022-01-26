@@ -24,13 +24,14 @@ class ExistsByHash implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        $model = new $this->model;
+        $model = new $this->model();
 
         if ($model->shouldHashPersist()) {
             return $model->newQuery()->where($attribute, $value)->count() > 0;

@@ -2,9 +2,9 @@
 
 namespace Veelasky\LaravelHashId\Eloquent;
 
+use Illuminate\Database\Eloquent\Builder;
 use LogicException;
 use Veelasky\LaravelHashId\Repository;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Eloquent Model HashableId trait.
@@ -44,6 +44,7 @@ trait HashableId
      * Get model by hash or fail.
      *
      * @param $hash
+     *
      * @return self
      *
      * @throw \Illuminate\Database\Eloquent\ModelNotFoundException
@@ -68,13 +69,14 @@ trait HashableId
      * Decode Hash to ID for the model.
      *
      * @param string $hash
+     *
      * @return int|null
      */
     public static function hashToId(string $hash): ?int
     {
-        return (new static)
+        return (new static())
            ->getHashIdRepository()
-           ->hashToId($hash, (new static)->getHashKey());
+           ->hashToId($hash, (new static())->getHashKey());
     }
 
     /**
@@ -93,13 +95,14 @@ trait HashableId
      * Encode Id to Hash for the model.
      *
      * @param int $primaryKey
+     *
      * @return string
      */
     public static function idToHash(int $primaryKey): string
     {
-        return (new static)
+        return (new static())
             ->getHashIdRepository()
-            ->idToHash($primaryKey, (new static)->getHashKey());
+            ->idToHash($primaryKey, (new static())->getHashKey());
     }
 
     /**
@@ -145,9 +148,9 @@ trait HashableId
     /**
      * Get HashId Repository.
      *
-     * @return \Veelasky\LaravelHashId\Repository
-     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return \Veelasky\LaravelHashId\Repository
      */
     protected function getHashIdRepository(): Repository
     {

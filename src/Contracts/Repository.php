@@ -19,7 +19,8 @@ interface Repository
     /**
      * Determine if the given HashId value exists.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return bool
      */
     public function has(string $key): bool;
@@ -27,7 +28,8 @@ interface Repository
     /**
      * Get the specified HashId object.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return Hashids
      */
     public function get(string $key): Hashids;
@@ -42,7 +44,7 @@ interface Repository
     /**
      * Set a given HashId object.
      *
-     * @param string     $key
+     * @param string           $key
      * @param \Hashids\Hashids $value
      *
      * @return \Veelasky\LaravelHashId\Contracts\Repository
