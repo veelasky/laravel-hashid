@@ -2,20 +2,20 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Tests\Models\HashModel;
+use Illuminate\Validation\ValidationException;
 use Tests\Models\CustomKeyModel;
 use Tests\Models\CustomSaltModel;
-use Tests\Models\PersistingModel;
+use Tests\Models\HashModel;
 use Tests\Models\IllegalHashModel;
-use Veelasky\LaravelHashId\Repository;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Veelasky\LaravelHashId\Rules\ExistsByHash;
+use Tests\Models\PersistingModel;
 use Tests\Models\PersistingModelWithCustomName;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
+use Veelasky\LaravelHashId\Repository;
+use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class HashableIdModelTest extends TestCase
 {
@@ -67,12 +67,12 @@ class HashableIdModelTest extends TestCase
         $m->save();
 
         $this->assertDatabaseHas($m->getTable(), [
-            'id' => $m->id,
+            'id'     => $m->id,
             'hashid' => $m->hash,
         ]);
 
         $this->assertDatabaseMissing($m->getTable(), [
-            'id' => $m->id,
+            'id'          => $m->id,
             'custom_name' => $m->hash,
         ]);
 
@@ -91,12 +91,12 @@ class HashableIdModelTest extends TestCase
         $m->save();
 
         $this->assertDatabaseHas($m->getTable(), [
-            'id' => $m->id,
+            'id'          => $m->id,
             'custom_name' => $m->hash,
         ]);
 
         $this->assertDatabaseMissing($m->getTable(), [
-            'id' => $m->id,
+            'id'     => $m->id,
             'hashid' => $m->hash,
         ]);
 

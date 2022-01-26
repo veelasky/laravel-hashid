@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Hashids\Hashids;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 use Veelasky\LaravelHashId\Repository;
 
 class RepositoryTest extends TestCase
