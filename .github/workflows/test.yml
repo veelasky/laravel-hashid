@@ -8,6 +8,8 @@ jobs:
         php: [ 7.3, 7.4, 8.0, 8.1]
         laravel: [9.*, 8.*, 7.*]
         exclude:
+          - laravel: 9.*
+            php: [ 7.3, 7.4 ]
           - laravel: 7.*
             php: 8.1
         include:
