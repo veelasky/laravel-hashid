@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php" : "^7.2 || ^8.0",
+        "php" : "^7.4 || ^8.0",
         "hashids/hashids": "^4.0",
         "illuminate/contracts": ">=6.18",
         "illuminate/config": ">=6.18",
