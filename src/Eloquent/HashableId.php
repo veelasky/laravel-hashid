@@ -57,12 +57,13 @@ trait HashableId
     /**
      * Get Hash Attribute.
      *
-     * @return string
+     * @return string|null
      */
-    public function getHashAttribute(): string
+    public function getHashAttribute(): ?string
     {
-        return $this->getHashIdRepository()
-            ->idToHash($this->getKey(), $this->getHashKey());
+        return $this->exists
+            ? $this->getHashIdRepository()->idToHash($this->getKey(), $this->getHashKey())
+            : null;
     }
 
     /**
