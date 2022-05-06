@@ -174,6 +174,15 @@ class HashableIdModelTest extends TestCase
         $this->assertEquals(CustomSaltModel::idToHash(1), $this->getRepository()->idToHash(1, 'custom'));
     }
 
+    public function test_route_binding()
+    {
+        $m = new HashModel();
+        $m->save();
+
+        $resolved = $m->resolveRouteBinding($m->hash);
+        $this->assertTrue($resolved->is($m));
+    }
+
     protected function getRepository(): Repository
     {
         return app('app.hashid');

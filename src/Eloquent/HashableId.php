@@ -29,6 +29,18 @@ trait HashableId
     }
 
     /**
+	 * @see parent
+	 */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if ($field) {
+            return parent::resolveRouteBinding($value, $field);
+        }
+
+        return $this->byHash($value);
+    }
+
+    /**
      * Get Model by hash.
      *
      * @param $hash
