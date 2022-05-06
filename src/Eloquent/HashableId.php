@@ -29,8 +29,8 @@ trait HashableId
     }
 
     /**
-	 * @see parent
-	 */
+     * @see parent
+     */
     public function resolveRouteBinding($value, $field = null)
     {
         if ($field) {
