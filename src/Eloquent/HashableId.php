@@ -33,7 +33,7 @@ trait HashableId
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        if ($field) {
+        if ($field || is_numeric($value)) {
             return parent::resolveRouteBinding($value, $field);
         }
 
