@@ -126,7 +126,7 @@ $user->hash; // will be equal to $customer->hash
 You can also specify the length and characters of the hashed Id with `HASHID_LENGTH` and `HASHID_ALPHABET` environment variable respectively, or you can publish the configuration file using this command:
 
 ```bash
-php artisan vendor:publish --tags=laravel-hashid-config
+php artisan vendor:publish --tag=laravel-hashid-config
 ```
 
 #### Extra: Validation Rules
