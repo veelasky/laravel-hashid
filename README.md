@@ -85,6 +85,26 @@ class User extends Model {
 
 ```
 
+#### Route binding
+
+When HashableId trait is used, base getRouteKey() and resolveRouteBinding() are overwritten to use the HashId as route key.
+
+```php
+use App\Models\User;
+
+class UserController extends Controller
+{
+    /**
+     * Route /users/{user}
+     * Ex: GET /users/k1jTdv6l
+     */
+    public function show(User $user)
+    {
+        ...
+    }
+}
+```
+
 #### In-Depth Coverage
 
 This package use repository pattern to store all instantiated implementation of `HashId\HashId` class, this to achieve different hash result on every eloquent models defined with `HashableId` trait.
@@ -126,7 +146,7 @@ $user->hash; // will be equal to $customer->hash
 You can also specify the length and characters of the hashed Id with `HASHID_LENGTH` and `HASHID_ALPHABET` environment variable respectively, or you can publish the configuration file using this command:
 
 ```bash
-php artisan vendor:publish --tags=laravel-hashid-config
+php artisan vendor:publish --tag=laravel-hashid-config
 ```
 
 #### Extra: Validation Rules
