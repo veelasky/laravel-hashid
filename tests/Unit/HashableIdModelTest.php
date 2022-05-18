@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Tests\Models\BasicModel;
 use Tests\Models\CustomKeyModel;
 use Tests\Models\CustomSaltModel;
 use Tests\Models\HashModel;
@@ -182,10 +181,6 @@ class HashableIdModelTest extends TestCase
 
         $resolved = $m->resolveRouteBinding($m->hash);
         $this->assertTrue($resolved->is($m));
-
-        // revert to original
-        $m = new BasicModel();
-        $m->save();
 
         $resolved = $m->resolveRouteBinding($m->getKey());
         $this->assertTrue($resolved->is($m));
