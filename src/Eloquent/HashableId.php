@@ -53,6 +53,24 @@ trait HashableId
     }
 
     /**
+     * Get Model by hashes.
+     *
+     * @param array $hashes
+     *
+     * @return array
+     */
+    public static function byHashes(array $hashes)
+    {
+        foreach ($hashes as $hash) {
+            if ($model = self::query()->byHash($hash)->first()) {
+                $data[] = $model;
+            }
+        }
+
+        return $data ?? [];
+    }
+
+    /**
      * Get model by hash or fail.
      *
      * @param $hash
