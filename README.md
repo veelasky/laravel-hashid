@@ -16,7 +16,7 @@ Automatic HashId generator for your eloquent model.
 |------------------|:----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
 | `1.x`     	      |`>=7.0`               	 | :white_check_mark: 	| :white_check_mark: 	| :x:                	| :x:                	| :x:                	|
 | `2.x`     	      |`>=7.2` - `<= 8.0`    	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
-| `3.0`     	      |       `>=7.4` \        |\| `>= 8.0` 	| :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
+| `3.0`     	      |       `>=7.4` \|\| `>= 8.0` 	| :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
 | `3.1`     	      |       `>= 8.0` 	       | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
 
 ### Install
