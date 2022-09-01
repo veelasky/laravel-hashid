@@ -60,8 +60,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./clover.xml
 
-      - name: send coverage to codacy.com
-        uses: codacy/codacy-coverage-reporter-action@master
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: clover.xml
+#      - name: send coverage to codacy.com
+#        uses: codacy/codacy-coverage-reporter-action@master
+#        with:
+#          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          coverage-reports: clover.xml
