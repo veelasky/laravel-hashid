@@ -5,11 +5,9 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php: [ 7.4, 8.0, 8.1]
+        php: [ 8.0, 8.1]
         laravel: [9.*, 8.*, 7.*]
         exclude:
-          - laravel: 9.*
-            php: 7.4
           - laravel: 7.*
             php: 8.1
         include:
@@ -62,8 +60,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./clover.xml
 
-      - name: send coverage to codacy.com
-        uses: codacy/codacy-coverage-reporter-action@master
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: clover.xml
+#      - name: send coverage to codacy.com
+#        uses: codacy/codacy-coverage-reporter-action@master
+#        with:
+#          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          coverage-reports: clover.xml
