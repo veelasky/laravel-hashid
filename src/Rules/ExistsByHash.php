@@ -34,7 +34,7 @@ class ExistsByHash implements Rule
         $model = new $this->model();
 
         if ($model->shouldHashPersist()) {
-            return $model->newQuery()->where($attribute, $value)->count() > 0;
+            return $model->newQuery()->where($model->getHashColumnName(), $value)->count() > 0;
         }
 
         return $model->newQuery()->where($model->getKeyName(), $this->model::hashToId($value))->count() > 0;
