@@ -52,10 +52,10 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-suggest
       - name: Test on old phpunit
-        if: ${{ matrix.laravel }} != "10.*"
+        if: ${{ matrix.laravel != "10.*" }}
         run: ./vendor/bin/phpunit
       - name: Test on phpunit 10
-        if: ${{ matrix.laravel }} == "10.*"
+        if: ${{ matrix.laravel == "10.*" }}
         run: |
           ./vendor/bin/phpunit --migrate-configuration
           ./vendor/bin/phpunit
