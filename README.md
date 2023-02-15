@@ -12,12 +12,12 @@ Automatic HashId generator for your eloquent model.
 
 ### Version Compatibilities
 
-| Laravel HashId 	 |   PHP Version      	   |     Laravel 5.*    	|     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|
-|------------------|:----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
-| `1.x`     	      |`>=7.0`               	 | :white_check_mark: 	| :white_check_mark: 	| :x:                	| :x:                	| :x:                	|
-| `2.x`     	      |`>=7.2` - `<= 8.0`    	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
-| `3.0`     	      |       `>=7.4` \|\| `>= 8.0` 	| :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
-| `3.1`     	      |       `>= 8.0` 	       | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
+| Laravel HashId 	 |   PHP Version      	   |     Laravel 5.*    	|     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|     Laravel 10.*    	|
+|------------------|:----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
+| `1.x`     	      |`>=7.0`               	 | :white_check_mark: 	| :white_check_mark: 	| :x:                	| :x:                	| :x:                	| :x:                	|
+| `2.x`     	      |`>=7.2` - `<= 8.0`    	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :x: 	|
+| `3.0`     	      |       `>=7.4` \|\| `>= 8.0` 	| :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :x: 	|
+| `3.1`     	      |       `>= 8.0` 	       | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
 
 ### Install
 
