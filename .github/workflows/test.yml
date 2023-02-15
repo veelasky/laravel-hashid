@@ -23,12 +23,10 @@ jobs:
             testbench: 6.*
           - laravel: 7.*
             testbench: ^5.2
-
     name: php ${{ matrix.php }} on laravel ${{ matrix.laravel }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -36,12 +34,10 @@ jobs:
           tools: composer:v2
           coverage: xdebug
           extensions: bcmath, sqlite
-
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -51,21 +47,23 @@ jobs:
             ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}
             ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
             ${{ runner.os }}-composer-
-
       - name: Install dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-suggest
-
-      - name: Test
+      - name: Test on old phpunit
+        if: ${{ matrix.laravel }} != "10.*"
         run: ./vendor/bin/phpunit
-
+      - name: Test on phpunit 10
+        if: ${{ matrix.laravel }} == "10.*"
+        run: |
+          ./vendor/bin/phpunit --migrate-configuration
+          ./vendor/bin/phpunit
       - name: send coverage to codecov.io
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./clover.xml
-
 #      - name: send coverage to codacy.com
 #        uses: codacy/codacy-coverage-reporter-action@master
 #        with:
