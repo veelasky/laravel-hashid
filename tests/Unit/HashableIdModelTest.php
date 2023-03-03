@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -16,6 +17,7 @@ use Tests\Models\PersistingModelWithCustomName;
 use Tests\TestCase;
 use Veelasky\LaravelHashId\Repository;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
+use function PHPUnit\Framework\assertEquals;
 
 class HashableIdModelTest extends TestCase
 {
@@ -159,6 +161,23 @@ class HashableIdModelTest extends TestCase
         $validator->validate();
     }
 
+    public function test_validation_persisting_model_resilient_with_different_app_key()
+    {
+        $m = new PersistingModel();
+        $m->save();
+
+        assertEquals($m->hashid, $m->hash);
+
+        config()->set('app.key', $this->generateRandomKey());
+
+        if (app()->resolved('app.hashid')) {
+            app()->forgetInstance('app.hashid');
+        }
+
+        self::assertEquals($m->hashid, $m->hash);
+    }
+
+
     public function test_custom_key_model()
     {
         $m = new CustomKeyModel();
@@ -189,5 +208,12 @@ class HashableIdModelTest extends TestCase
     protected function getRepository(): Repository
     {
         return app('app.hashid');
+    }
+
+    protected function generateRandomKey(): string
+    {
+        return 'base64:'.base64_encode(
+                Encrypter::generateKey(config('app.cipher'))
+            );
     }
 }
