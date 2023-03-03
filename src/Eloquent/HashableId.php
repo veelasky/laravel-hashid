@@ -73,9 +73,15 @@ trait HashableId
      */
     public function getHashAttribute(): ?string
     {
-        return $this->exists
-            ? $this->getHashIdRepository()->idToHash($this->getKey(), $this->getHashKey())
-            : null;
+        if (! $this->exists) {
+            return null;
+        }
+
+        if ($this->shouldHashPersist()) {
+            return $this->{$this->getHashColumnName()};
+        }
+
+        return $this->getHashIdRepository()->idToHash($this->getKey(), $this->getHashKey());
     }
 
     /**
