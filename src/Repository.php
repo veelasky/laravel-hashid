@@ -67,6 +67,7 @@ class Repository implements RepositoryContract, ArrayAccess
         }
 
         $key = strlen($key) > 4 ? $key : 'default'.$key;
+
         return $this->make($key, substr($key, -4).substr(config('app.key', 'lara'), -4));
     }
 
