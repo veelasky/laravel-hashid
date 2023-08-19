@@ -50,12 +50,13 @@ class RepositoryTest extends TestCase
         $this->assertArrayNotHasKey($key, $this->getRepository());
     }
 
-    public function test_should_has_one_on_start()
+    public function test_should_have_default()
     {
-        $this->assertCount(1, $this->getRepository()->all());
+        $default = $this->getRepository()->get('default');
 
-        // and it's default.
-        $this->assertArrayHasKey('default', $this->getRepository()->all());
+        $this->assertInstanceOf(Hashids::class, $default);
+
+        $this->assertEquals([1234], $default->decode('jXrJE9PL'));
     }
 
     protected function getRepository(): Repository

@@ -59,6 +59,13 @@ class Repository implements RepositoryContract, ArrayAccess
             return $this->hashes[$key];
         }
 
+        if ($key === 'default') {
+            return $this->make(
+                $key,
+                substr(config('app.key', config('hashid.hash_alphabet')), 8, 4).substr(config('app.key', 'lara'), -4)
+            );
+        }
+
         $key = strlen($key) > 4 ? $key : 'default'.$key;
 
         return $this->make($key, substr($key, -4).substr(config('app.key', 'lara'), -4));

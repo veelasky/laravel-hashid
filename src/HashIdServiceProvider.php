@@ -19,11 +19,6 @@ class HashIdServiceProvider extends LaravelServiceProvider
                 __DIR__.'/../config' => $this->app->basePath('config'),
             ], 'laravel-hashid-config');
         }
-
-        $this->app['app.hashid']->make(
-            'default',
-            substr($this->app['config']->get('app.key', $this->app['config']->get('hashid.hash_alphabet')), 8, 4).substr($this->app['config']->get('app.key', 'lara'), -4)
-        );
     }
 
     /**
