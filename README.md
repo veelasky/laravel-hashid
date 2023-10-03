@@ -92,7 +92,7 @@ The salt is generated automatically based on your app key and hash_alphabet. If 
 
 #### Route binding
 
-When HashableId trait is used, base getRouteKey() and resolveRouteBinding() are overwritten to use the HashId as route key.
+When HashableId trait is used, base `getRouteKey()` and `resolveRouteBinding()` are overwritten to use the HashId as route key.
 
 ```php
 use App\Models\User;
