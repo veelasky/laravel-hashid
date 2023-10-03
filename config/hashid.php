@@ -14,5 +14,5 @@ return [
     /*
      * Override generated HashId salt.
     */
-    'hash_salt' => env('HASHID_SALT', null)
+    'hash_salt' => env('HASHID_SALT', null),
 ];
