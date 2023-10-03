@@ -86,6 +86,10 @@ class User extends Model {
 
 ```
 
+#### Salt
+
+The salt is generated automatically based on your app key and hash_alphabet. If you need to use the same salt between different projects, you can set the `HASHID_SALT` environment variable.
+
 #### Route binding
 
 When HashableId trait is used, base getRouteKey() and resolveRouteBinding() are overwritten to use the HashId as route key.
