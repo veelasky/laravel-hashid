@@ -63,16 +63,16 @@
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon-doctrine-types.git",
-                "reference": "49856fbc09fe91b5433381faec60e3620ad364ad"
+                "reference": "a31d3358a2a5d6ae947df1691d1f321418a5f3d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon-doctrine-types/zipball/49856fbc09fe91b5433381faec60e3620ad364ad",
-                "reference": "49856fbc09fe91b5433381faec60e3620ad364ad",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon-doctrine-types/zipball/a31d3358a2a5d6ae947df1691d1f321418a5f3d5",
+                "reference": "a31d3358a2a5d6ae947df1691d1f321418a5f3d5",
                 "shasum": ""
             },
             "require": {
@@ -112,7 +112,7 @@
             ],
             "support": {
                 "issues": "https://github.com/CarbonPHP/carbon-doctrine-types/issues",
-                "source": "https://github.com/CarbonPHP/carbon-doctrine-types/tree/3.0.0"
+                "source": "https://github.com/CarbonPHP/carbon-doctrine-types/tree/3.1.0"
             },
             "funding": [
                 {
@@ -128,7 +128,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-01T14:36:55+00:00"
+            "time": "2023-12-10T15:33:53+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -791,16 +791,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.35.0",
+            "version": "v10.37.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "91ec2d92d2f6007e9084fe06438b99c91845da69"
+                "reference": "996375dd61f8c6e4ac262b57ed485655d71fcbdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/91ec2d92d2f6007e9084fe06438b99c91845da69",
-                "reference": "91ec2d92d2f6007e9084fe06438b99c91845da69",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/996375dd61f8c6e4ac262b57ed485655d71fcbdc",
+                "reference": "996375dd61f8c6e4ac262b57ed485655d71fcbdc",
                 "shasum": ""
             },
             "require": {
@@ -989,7 +989,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-12-05T14:50:33+00:00"
+            "time": "2023-12-13T20:10:58+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -1605,16 +1605,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.0",
+            "version": "2.72.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a6885fcbad2ec4360b0e200ee0da7d9b7c90786b"
+                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a6885fcbad2ec4360b0e200ee0da7d9b7c90786b",
-                "reference": "a6885fcbad2ec4360b0e200ee0da7d9b7c90786b",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
+                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
                 "shasum": ""
             },
             "require": {
@@ -1708,7 +1708,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-28T10:13:25+00:00"
+            "time": "2023-12-08T23:47:49+00:00"
         },
         {
             "name": "nette/schema",
@@ -4711,23 +4711,23 @@
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
-            "version": "2.2.6",
+            "version": "v2.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tijsverkoyen/CssToInlineStyles.git",
-                "reference": "c42125b83a4fa63b187fdf29f9c93cb7733da30c"
+                "reference": "83ee6f38df0a63106a9e4536e3060458b74ccedb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tijsverkoyen/CssToInlineStyles/zipball/c42125b83a4fa63b187fdf29f9c93cb7733da30c",
-                "reference": "c42125b83a4fa63b187fdf29f9c93cb7733da30c",
+                "url": "https://api.github.com/repos/tijsverkoyen/CssToInlineStyles/zipball/83ee6f38df0a63106a9e4536e3060458b74ccedb",
+                "reference": "83ee6f38df0a63106a9e4536e3060458b74ccedb",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "php": "^5.5 || ^7.0 || ^8.0",
-                "symfony/css-selector": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
+                "symfony/css-selector": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0 || ^7.5 || ^8.5.21 || ^9.5.10"
@@ -4758,9 +4758,9 @@
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "support": {
                 "issues": "https://github.com/tijsverkoyen/CssToInlineStyles/issues",
-                "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.6"
+                "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
-            "time": "2023-01-03T09:29:04+00:00"
+            "time": "2023-12-08T13:03:43+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5367,16 +5367,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.6.6",
+            "version": "1.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "b8e0bb7d8c604046539c1115994632c74dcb361e"
+                "reference": "0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/b8e0bb7d8c604046539c1115994632c74dcb361e",
-                "reference": "b8e0bb7d8c604046539c1115994632c74dcb361e",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06",
+                "reference": "0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06",
                 "shasum": ""
             },
             "require": {
@@ -5389,9 +5389,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.5 || ^9.6.10",
-                "psalm/plugin-phpunit": "^0.18.4",
-                "symplify/easy-coding-standard": "^11.5.0",
-                "vimeo/psalm": "^4.30"
+                "symplify/easy-coding-standard": "^12.0.8"
             },
             "type": "library",
             "autoload": {
@@ -5448,7 +5446,7 @@
                 "security": "https://github.com/mockery/mockery/security/advisories",
                 "source": "https://github.com/mockery/mockery"
             },
-            "time": "2023-08-09T00:03:52+00:00"
+            "time": "2023-12-10T02:24:34+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -5567,16 +5565,16 @@
         },
         {
             "name": "orchestra/canvas",
-            "version": "v8.11.4",
+            "version": "v8.11.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas.git",
-                "reference": "466ed3d7c1755e49be1c8e5557b434381b8ab6d1"
+                "reference": "5bc4c6c4cb17c558db5b22ad85c2701486b8e81d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas/zipball/466ed3d7c1755e49be1c8e5557b434381b8ab6d1",
-                "reference": "466ed3d7c1755e49be1c8e5557b434381b8ab6d1",
+                "url": "https://api.github.com/repos/orchestral/canvas/zipball/5bc4c6c4cb17c558db5b22ad85c2701486b8e81d",
+                "reference": "5bc4c6c4cb17c558db5b22ad85c2701486b8e81d",
                 "shasum": ""
             },
             "require": {
@@ -5635,9 +5633,9 @@
             "description": "Code Generators for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas/tree/v8.11.4"
+                "source": "https://github.com/orchestral/canvas/tree/v8.11.5"
             },
-            "time": "2023-11-27T04:47:24+00:00"
+            "time": "2023-12-05T22:49:56+00:00"
         },
         {
             "name": "orchestra/canvas-core",
@@ -5713,24 +5711,24 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v8.17.0",
+            "version": "v8.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "3bbe0956df4b6f811ca879e2a8d69a8a8b626587"
+                "reference": "f0e45294c74c383dc5511ac971ed62e341ece481"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/3bbe0956df4b6f811ca879e2a8d69a8a8b626587",
-                "reference": "3bbe0956df4b6f811ca879e2a8d69a8a8b626587",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/f0e45294c74c383dc5511ac971ed62e341ece481",
+                "reference": "f0e45294c74c383dc5511ac971ed62e341ece481",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.23.1",
+                "laravel/framework": "^10.37.3",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": "^8.17",
+                "orchestra/testbench-core": "^8.18",
                 "orchestra/workbench": "^1.2 || ^8.2",
                 "php": "^8.1",
                 "phpunit/phpunit": "^9.6 || ^10.1",
@@ -5762,22 +5760,22 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v8.17.0"
+                "source": "https://github.com/orchestral/testbench/tree/v8.18.0"
             },
-            "time": "2023-12-06T03:25:17+00:00"
+            "time": "2023-12-19T01:08:22+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.17.1",
+            "version": "v8.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "6856e979790c18705812b2b6c3c73bb1f6d8baa8"
+                "reference": "28ed9383d390cb9913c3daa716f0d7170126b8d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/6856e979790c18705812b2b6c3c73bb1f6d8baa8",
-                "reference": "6856e979790c18705812b2b6c3c73bb1f6d8baa8",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/28ed9383d390cb9913c3daa716f0d7170126b8d5",
+                "reference": "28ed9383d390cb9913c3daa716f0d7170126b8d5",
                 "shasum": ""
             },
             "require": {
@@ -5787,14 +5785,14 @@
             },
             "conflict": {
                 "brianium/paratest": "<6.4.0 || >=7.0.0 <7.1.4 || >=8.0.0",
-                "laravel/framework": "<10.23.1 || >=11.0.0",
+                "laravel/framework": "<10.37.3 || >=11.0.0",
                 "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
                 "orchestra/workbench": "<1.0.0",
                 "phpunit/phpunit": "<9.6.0 || >=10.6.0"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.23",
+                "laravel/framework": "^10.37.3",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "phpstan/phpstan": "^1.10.7",
@@ -5807,7 +5805,7 @@
             "suggest": {
                 "brianium/paratest": "Allow using parallel testing (^6.4 || ^7.1.4).",
                 "fakerphp/faker": "Allow using Faker for testing (^1.21).",
-                "laravel/framework": "Required for testing (^10.23).",
+                "laravel/framework": "Required for testing (^10.37.3).",
                 "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
                 "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.4).",
                 "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
@@ -5853,7 +5851,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-12-06T08:00:50+00:00"
+            "time": "2023-12-19T00:45:02+00:00"
         },
         {
             "name": "orchestra/workbench",
