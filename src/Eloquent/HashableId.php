@@ -24,8 +24,8 @@ trait HashableId
     public function scopeByHash(Builder $query, string $hash): Builder
     {
         return  $this->shouldHashPersist()
-            ? $query->where($this->getHashColumnName(), $hash)
-            : $query->where($this->getKeyName(), self::hashToId($hash));
+            ? $query->where($this->qualifyColumn($this->getHashColumnName()), $hash)
+            : $query->where($this->getQualifiedKeyName(), self::hashToId($hash));
     }
 
     /**
