@@ -43,6 +43,9 @@
             "aliases" : {
                 "HashId" : "Veelasky\\LaravelHashId\\Facade"
             }
+        },
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
         }
     }
 }
