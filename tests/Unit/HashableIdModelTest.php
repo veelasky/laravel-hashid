@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use InvalidArgumentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 use Tests\Models\BasicModel;
 use Tests\Models\CustomKeyModel;
 use Tests\Models\CustomSaltModel;
