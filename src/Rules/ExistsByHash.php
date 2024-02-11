@@ -2,51 +2,73 @@
 
 namespace Veelasky\LaravelHashId\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\ValidatorAwareRule;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rules\Exists;
+use Illuminate\Validation\Validator;
+use InvalidArgumentException;
+use Veelasky\LaravelHashId\Eloquent\HashableId;
 
-class ExistsByHash implements Rule
+class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
 {
-    /**
-     * @var string
-     */
-    private $model;
+    /** @var Model&HashableId */
+    protected Model $model;
+    protected Validator $validator;
 
     /**
-     * Create a new rule instance.
-     *
-     * @param string $model
+     * @param class-string<Model&HashableId> $class
      */
-    public function __construct(string $model)
+    public function __construct(string $class)
     {
-        $this->model = $model;
-    }
+        $this->model = new $class();
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param string $attribute
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function passes($attribute, $value)
-    {
-        $model = new $this->model();
-
-        if ($model->shouldHashPersist()) {
-            return $model->newQuery()->where($model->getHashColumnName(), $value)->count() > 0;
+        if (!method_exists($this->model, 'bootHashableId')) {
+            throw new InvalidArgumentException('Class does not use HashableId');
         }
 
-        return $model->newQuery()->where($model->getKeyName(), $this->model::hashToId($value))->count() > 0;
+        parent::__construct($class, $this->model->shouldHashPersist() ? $this->model->getHashColumnName() : $this->model->getKeyName());
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return trans('validation.exists');
+        if (!$value || (!$this->model->shouldHashPersist() && !$value = $this->model::hashToId($value))) {
+            $this->fail($attribute, $fail);
+
+            return;
+        }
+
+        $validator = validator(
+            [$attribute => $value],
+            [$attribute => $this->buildParentRule()]
+        );
+
+        if ($validator->fails()) {
+            $this->fail($attribute, $fail);
+        }
+    }
+
+    public function setValidator($validator): static
+    {
+        $this->validator = $validator;
+
+        return $this;
+    }
+
+    protected function buildParentRule(): Exists
+    {
+        return tap(new parent($this->table, $this->column), function (Exists $parent) {
+            $parent->wheres = $this->wheres;
+            $parent->using = $this->using;
+        });
+    }
+
+    protected function fail(string $attribute, Closure $fail): void
+    {
+        $fail($this->validator->customMessages["{$attribute}.existsByHash"] ?? 'validation.exists')
+            ->translate([
+                'attribute' => $this->validator->getDisplayableAttribute($attribute),
+            ]);
     }
 }
