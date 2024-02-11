@@ -2,11 +2,13 @@
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Tests\Models\BasicModel;
 use Tests\Models\CustomKeyModel;
 use Tests\Models\CustomSaltModel;
 use Tests\Models\HashModel;
@@ -134,6 +136,17 @@ class HashableIdModelTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $validator->validate();
+    }
+
+    public function test_validation_not_using_trait()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        Validator::make([
+            'id' => Str::random(),
+        ], [
+            'id' => [new ExistsByHash(BasicModel::class)],
+        ]);
     }
 
     public function test_validation_on_persisting_model()
