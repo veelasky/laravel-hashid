@@ -24,7 +24,7 @@ class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
     {
         $this->model = new $class();
 
-        if (! method_exists($this->model, 'bootHashableId')) {
+        if (!method_exists($this->model, 'bootHashableId')) {
             throw new InvalidArgumentException('Class does not use HashableId');
         }
 
@@ -33,7 +33,7 @@ class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! $value || (! $this->model->shouldHashPersist() && ! $value = $this->model::hashToId($value))) {
+        if (!$value || (!$this->model->shouldHashPersist() && !$value = $this->model::hashToId($value))) {
             $this->fail($attribute, $fail);
 
             return;

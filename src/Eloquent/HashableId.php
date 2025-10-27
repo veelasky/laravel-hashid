@@ -185,14 +185,14 @@ trait HashableId
     /**
      * Ensure primary key is included in column selection.
      *
-     * @param  array $columns
+     * @param array $columns
      * @return array
      */
     private static function ensurePrimaryKeyInColumns(array $columns): array
     {
         $columns = empty($columns) ? ['*'] : $columns;
 
-        if ($columns !== ['*'] && ! in_array((new static)->getKeyName(), $columns)) {
+        if ($columns !== ['*'] && !in_array((new static)->getKeyName(), $columns)) {
             $columns[] = (new static)->getKeyName();
         }
 
