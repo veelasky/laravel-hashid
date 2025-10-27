@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Hashids\Hashids;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 use Veelasky\LaravelHashId\Repository;
 
 class RepositoryTest extends TestCase
@@ -12,7 +12,7 @@ class RepositoryTest extends TestCase
     public function test_automatically_create()
     {
         $randomId = rand(1, 1000);
-        $key      = Str::random();
+        $key = Str::random();
         $hashedId = $this->getRepository()->idToHash($randomId, $key);
 
         $this->assertInstanceOf(Hashids::class, $this->getRepository()->get($key));
@@ -25,7 +25,7 @@ class RepositoryTest extends TestCase
 
     public function test_result_unchanged()
     {
-        $key    = Str::random();
+        $key = Str::random();
         $hashId = $this->getRepository()->get($key);
 
         $this->assertEquals($hashId, $this->getRepository()->get($key));
@@ -36,7 +36,7 @@ class RepositoryTest extends TestCase
     {
         $this->assertIsArray($this->getRepository()->all());
 
-        $key    = Str::random();
+        $key = Str::random();
         $hashid = $this->getRepository()[$key];
 
         $this->assertEquals($hashid, $this->getRepository()->get($key));

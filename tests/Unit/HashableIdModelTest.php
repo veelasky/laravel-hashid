@@ -2,22 +2,22 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Tests\Models\HashModel;
-use Tests\Models\BasicModel;
+use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
+use Tests\Models\BasicModel;
 use Tests\Models\CustomKeyModel;
 use Tests\Models\CustomSaltModel;
-use Tests\Models\PersistingModel;
+use Tests\Models\HashModel;
 use Tests\Models\IllegalHashModel;
-use Veelasky\LaravelHashId\Repository;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Veelasky\LaravelHashId\Rules\ExistsByHash;
+use Tests\Models\PersistingModel;
 use Tests\Models\PersistingModelWithCustomName;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
+use Veelasky\LaravelHashId\Repository;
+use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class HashableIdModelTest extends TestCase
 {
@@ -69,12 +69,12 @@ class HashableIdModelTest extends TestCase
         $m->save();
 
         $this->assertDatabaseHas($m->getTable(), [
-            'id'     => $m->id,
+            'id' => $m->id,
             'hashid' => $m->hash,
         ]);
 
         $this->assertDatabaseMissing($m->getTable(), [
-            'id'          => $m->id,
+            'id' => $m->id,
             'custom_name' => $m->hash,
         ]);
 
@@ -93,12 +93,12 @@ class HashableIdModelTest extends TestCase
         $m->save();
 
         $this->assertDatabaseHas($m->getTable(), [
-            'id'          => $m->id,
+            'id' => $m->id,
             'custom_name' => $m->hash,
         ]);
 
         $this->assertDatabaseMissing($m->getTable(), [
-            'id'     => $m->id,
+            'id' => $m->id,
             'hashid' => $m->hash,
         ]);
 
@@ -201,7 +201,7 @@ class HashableIdModelTest extends TestCase
 
     public function test_by_hash_with_column_selection()
     {
-        $m              = new HashModel();
+        $m = new HashModel();
         $m->custom_name = 'Test User';
         $m->save();
 
@@ -243,7 +243,7 @@ class HashableIdModelTest extends TestCase
 
     public function test_by_hash_or_fail_with_column_selection()
     {
-        $m              = new HashModel();
+        $m = new HashModel();
         $m->custom_name = 'Test User';
         $m->save();
 
@@ -281,7 +281,7 @@ class HashableIdModelTest extends TestCase
 
     public function test_by_hash_column_selection_with_persisting_model()
     {
-        $m              = new PersistingModel();
+        $m = new PersistingModel();
         $m->custom_name = 'Persisting Model';
         $m->save();
 
@@ -294,7 +294,7 @@ class HashableIdModelTest extends TestCase
 
     public function test_by_hash_column_selection_edge_cases()
     {
-        $m              = new HashModel();
+        $m = new HashModel();
         $m->custom_name = 'Edge Case';
         $m->save();
 

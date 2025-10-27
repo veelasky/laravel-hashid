@@ -45,10 +45,6 @@ $rules = [
     'object_operator_without_whitespace' => true,
     'binary_operator_spaces' => [
         'default' => 'single_space',
-        'operators' => [
-            '=>' => 'align',
-            '=' => 'align_single_space_minimal',
-        ],
     ],
     'no_spaces_inside_parenthesis' => true,
     'phpdoc_indent' => true,
@@ -60,7 +56,7 @@ $rules = [
     'phpdoc_to_comment' => true,
     'phpdoc_no_alias_tag' => [
         'replacements' => [
-            'var' => 'type',
+            'type' => 'var',
         ],
     ],
     'self_accessor' => true,
@@ -85,7 +81,7 @@ $rules = [
     'visibility_required' => true,
     'no_whitespace_in_blank_line' => true,
     'ordered_imports' => [
-        'sort_algorithm' => 'length'
+        'sort_algorithm' => 'alpha',
     ],
     'ordered_class_elements' => [
         'order' => ['use_trait', 'constant_public', 'constant_protected', 'constant_private', 'property_public', 'property_protected', 'property_private', 'construct', 'destruct', 'magic', 'phpunit', 'method_public', 'method_protected', 'method_private']

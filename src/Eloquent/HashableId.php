@@ -2,9 +2,9 @@
 
 namespace Veelasky\LaravelHashId\Eloquent;
 
+use Illuminate\Database\Eloquent\Builder;
 use LogicException;
 use Veelasky\LaravelHashId\Repository;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Eloquent Model HashableId trait.

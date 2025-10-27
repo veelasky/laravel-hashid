@@ -3,17 +3,17 @@
 namespace Veelasky\LaravelHashId\Rules;
 
 use Closure;
-use InvalidArgumentException;
-use Illuminate\Validation\Validator;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rules\Exists;
-use Veelasky\LaravelHashId\Eloquent\HashableId;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rules\Exists;
+use Illuminate\Validation\Validator;
+use InvalidArgumentException;
+use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
 {
-    /** @type Model&HashableId */
+    /** @var Model&HashableId */
     protected Model $model;
     protected Validator $validator;
 
@@ -60,7 +60,7 @@ class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
     {
         return tap(new parent($this->table, $this->column), function (Exists $parent) {
             $parent->wheres = $this->wheres;
-            $parent->using  = $this->using;
+            $parent->using = $this->using;
         });
     }
 
