@@ -14,6 +14,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+
+        // Ensure database is properly initialized
+        $this->artisan('migrate', ['--force' => true]);
     }
 
     /** {@inheritdoc} */
