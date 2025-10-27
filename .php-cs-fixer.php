@@ -45,9 +45,13 @@ $rules = [
     'object_operator_without_whitespace' => true,
     'binary_operator_spaces' => [
         'default' => 'single_space',
+        'operators' => [
+            '=>' => 'align',
+        ],
     ],
     'no_spaces_inside_parenthesis' => true,
     'phpdoc_indent' => true,
+    'phpdoc_align' => true,
     'phpdoc_inline_tag_normalizer' => true,
     'phpdoc_no_access' => true,
     'phpdoc_no_package' => true,

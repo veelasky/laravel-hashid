@@ -69,12 +69,12 @@ class HashableIdModelTest extends TestCase
         $m->save();
 
         $this->assertDatabaseHas($m->getTable(), [
-            'id' => $m->id,
+            'id'     => $m->id,
             'hashid' => $m->hash,
         ]);
 
         $this->assertDatabaseMissing($m->getTable(), [
-            'id' => $m->id,
+            'id'          => $m->id,
             'custom_name' => $m->hash,
         ]);
 
@@ -93,12 +93,12 @@ class HashableIdModelTest extends TestCase
         $m->save();
 
         $this->assertDatabaseHas($m->getTable(), [
-            'id' => $m->id,
+            'id'          => $m->id,
             'custom_name' => $m->hash,
         ]);
 
         $this->assertDatabaseMissing($m->getTable(), [
-            'id' => $m->id,
+            'id'     => $m->id,
             'hashid' => $m->hash,
         ]);
 

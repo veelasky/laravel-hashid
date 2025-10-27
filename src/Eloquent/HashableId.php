@@ -44,7 +44,7 @@ trait HashableId
      * Get Model by hash.
      *
      * @param string|int $hash
-     * @param array $columns
+     * @param array      $columns
      *
      * @return self|null
      */
@@ -57,7 +57,7 @@ trait HashableId
      * Get model by hash or fail.
      *
      * @param string|int $hash
-     * @param array $columns
+     * @param array      $columns
      *
      * @return self
      *
@@ -185,7 +185,7 @@ trait HashableId
     /**
      * Ensure primary key is included in column selection.
      *
-     * @param array $columns
+     * @param  array $columns
      * @return array
      */
     private static function ensurePrimaryKeyInColumns(array $columns): array
