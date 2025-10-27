@@ -2,9 +2,9 @@
 
 namespace Veelasky\LaravelHashId\Eloquent;
 
-use Illuminate\Database\Eloquent\Builder;
 use LogicException;
 use Veelasky\LaravelHashId\Repository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Eloquent Model HashableId trait.
@@ -66,23 +66,6 @@ trait HashableId
     public static function byHashOrFail($hash, array $columns = ['*']): self
     {
         return self::query()->select(self::ensurePrimaryKeyInColumns($columns))->byHash($hash)->firstOrFail();
-    }
-
-    /**
-     * Ensure primary key is included in column selection.
-     *
-     * @param array $columns
-     * @return array
-     */
-    private static function ensurePrimaryKeyInColumns(array $columns): array
-    {
-        $columns = empty($columns) ? ['*'] : $columns;
-
-        if ($columns !== ['*'] && !in_array((new static)->getKeyName(), $columns)) {
-            $columns[] = (new static)->getKeyName();
-        }
-
-        return $columns;
     }
 
     /**
@@ -197,5 +180,22 @@ trait HashableId
         }
 
         return app('app.hashid');
+    }
+
+    /**
+     * Ensure primary key is included in column selection.
+     *
+     * @param array $columns
+     * @return array
+     */
+    private static function ensurePrimaryKeyInColumns(array $columns): array
+    {
+        $columns = empty($columns) ? ['*'] : $columns;
+
+        if ($columns !== ['*'] && ! in_array((new static)->getKeyName(), $columns)) {
+            $columns[] = (new static)->getKeyName();
+        }
+
+        return $columns;
     }
 }

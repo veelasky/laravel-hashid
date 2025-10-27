@@ -11,7 +11,7 @@ class Repository implements RepositoryContract, ArrayAccess
     /**
      * All registered HashIds Object.
      *
-     * @var \Hashids\Hashids[]
+     * @type \Hashids\Hashids[]
      */
     protected $hashes = [];
 

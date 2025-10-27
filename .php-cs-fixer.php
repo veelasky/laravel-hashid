@@ -6,7 +6,9 @@ $rules = [
     ],
     'blank_line_after_namespace' => true,
     'blank_line_after_opening_tag' => true,
-    'blank_line_before_return' => true,
+    'blank_line_before_statement' => [
+        'statements' => ['return'],
+    ],
     'braces' => true,
     'cast_spaces' => true,
     'concat_space' => ['spacing' => 'none'],
@@ -16,8 +18,8 @@ $rules = [
     'simplified_null_return' => true,
     'encoding' => true,
     'single_blank_line_at_eof' => true,
-    'no_extra_consecutive_blank_lines' => [
-        'use',
+    'no_extra_blank_lines' => [
+        'tokens' => ['use'],
     ],
     'no_spaces_after_function_name' => true,
     'no_trailing_comma_in_list_call' => true,
@@ -27,34 +29,46 @@ $rules = [
     'indentation_type' => true,
     'no_alias_functions' => true,
     'line_ending' => true,
-    'lowercase_constants' => true,
+    'constant_case' => [
+        'case' => 'lower',
+    ],
     'lowercase_keywords' => true,
     'method_argument_space' => true,
-    'trailing_comma_in_multiline_array' => true,
-    'no_multiline_whitespace_before_semicolons' => true,
+    'trailing_comma_in_multiline' => [
+        'elements' => ['arrays'],
+    ],
+    'multiline_whitespace_before_semicolons' => true,
     'single_import_per_statement' => true,
     'no_leading_namespace_whitespace' => true,
     'no_blank_lines_after_class_opening' => true,
     'no_blank_lines_after_phpdoc' => true,
     'object_operator_without_whitespace' => true,
     'binary_operator_spaces' => [
-        'align_equals' => false,
+        'default' => 'single_space',
+        'operators' => [
+            '=>' => 'align',
+            '=' => 'align_single_space_minimal',
+        ],
     ],
     'no_spaces_inside_parenthesis' => true,
     'phpdoc_indent' => true,
-    'phpdoc_inline_tag' => true,
+    'phpdoc_inline_tag_normalizer' => true,
     'phpdoc_no_access' => true,
     'phpdoc_no_package' => true,
     'phpdoc_scalar' => true,
     'phpdoc_summary' => true,
     'phpdoc_to_comment' => true,
     'phpdoc_no_alias_tag' => [
-        'type' => 'var',
+        'replacements' => [
+            'var' => 'type',
+        ],
     ],
     'self_accessor' => true,
     'phpdoc_var_without_name' => true,
     'no_leading_import_slash' => true,
-    'no_short_echo_tag' => true,
+    'echo_tag_syntax' => [
+        'format' => 'long',
+    ],
     'full_opening_tag' => true,
     'no_trailing_comma_in_singleline_array' => true,
     'single_blank_line_before_namespace' => true,
@@ -71,14 +85,14 @@ $rules = [
     'visibility_required' => true,
     'no_whitespace_in_blank_line' => true,
     'ordered_imports' => [
-        'sortAlgorithm' => 'length'
+        'sort_algorithm' => 'length'
     ],
     'ordered_class_elements' => [
         'order' => ['use_trait', 'constant_public', 'constant_protected', 'constant_private', 'property_public', 'property_protected', 'property_private', 'construct', 'destruct', 'magic', 'phpunit', 'method_public', 'method_protected', 'method_private']
     ]
 ];
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules($rules)
     ->setFinder(

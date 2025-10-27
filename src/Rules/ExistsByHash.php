@@ -3,17 +3,17 @@
 namespace Veelasky\LaravelHashId\Rules;
 
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Contracts\Validation\ValidatorAwareRule;
+use InvalidArgumentException;
+use Illuminate\Validation\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Exists;
-use Illuminate\Validation\Validator;
-use InvalidArgumentException;
 use Veelasky\LaravelHashId\Eloquent\HashableId;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\ValidatorAwareRule;
 
 class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
 {
-    /** @var Model&HashableId */
+    /** @type Model&HashableId */
     protected Model $model;
     protected Validator $validator;
 
@@ -24,7 +24,7 @@ class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
     {
         $this->model = new $class();
 
-        if (!method_exists($this->model, 'bootHashableId')) {
+        if (! method_exists($this->model, 'bootHashableId')) {
             throw new InvalidArgumentException('Class does not use HashableId');
         }
 
@@ -33,7 +33,7 @@ class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!$value || (!$this->model->shouldHashPersist() && !$value = $this->model::hashToId($value))) {
+        if (! $value || (! $this->model->shouldHashPersist() && ! $value = $this->model::hashToId($value))) {
             $this->fail($attribute, $fail);
 
             return;
@@ -60,7 +60,7 @@ class ExistsByHash extends Exists implements ValidationRule, ValidatorAwareRule
     {
         return tap(new parent($this->table, $this->column), function (Exists $parent) {
             $parent->wheres = $this->wheres;
-            $parent->using = $this->using;
+            $parent->using  = $this->using;
         });
     }
 
