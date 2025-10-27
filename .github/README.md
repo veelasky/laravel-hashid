@@ -95,12 +95,12 @@ security-advisories → codacy-security-scan (parallel)
 
 ### Supported PHP/Laravel Combinations
 
-| PHP Version | Laravel 10 | Laravel 11 | Laravel 12 (dev-master) |
-|-------------|------------|------------|-------------------------|
-| **8.1**     | ✅         | ❌         | ❌                     |
-| **8.2**     | ✅         | ✅         | ✅                     |
-| **8.3**     | ✅         | ✅         | ✅                     |
-| **8.4**     | ✅         | ✅         | ✅                     |
+| PHP Version | Laravel 10 | Laravel 11 | Laravel 12 |
+|-------------|------------|------------|-----------|
+| **8.1**     | ✅         | ❌         | ❌        |
+| **8.2**     | ✅         | ✅         | ✅        |
+| **8.3**     | ✅         | ✅         | ✅        |
+| **8.4**     | ✅         | ✅         | ✅        |
 
 ### Dependency Management
 
