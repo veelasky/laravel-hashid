@@ -165,11 +165,11 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-    - name: Install specific Laravel/Testbench version
+      - name: Install specific Laravel/Testbench version
         run: |
           composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/config:${{ matrix.laravel }}" "illuminate/support:${{ matrix.laravel }}" "illuminate/validation:${{ matrix.laravel }}" "illuminate/database:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-update --no-interaction
 
-    - name: Install PHPUnit compatible version for PHP 8.1
+      - name: Install PHPUnit compatible version for PHP 8.1
         if: matrix.php == '8.1'
         run: |
           composer require "phpunit/phpunit:^10.0" --no-update --no-interaction
