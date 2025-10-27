@@ -157,7 +157,10 @@ jobs:
           restore-keys: |
             deps-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-
             deps-${{ runner.os }}-${{ matrix.php }}-
-            deps-${{ runner.os }}-
+
+      - name: Remove incompatible lock file for PHP 8.1
+        if: matrix.php == '8.1'
+        run: rm -f composer.lock
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
