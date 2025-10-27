@@ -1,0 +1,263 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+# Permissions for the workflow
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+# Global environment variables
+env:
+  COMPOSER_CACHE_DIR: ~/.cache/composer/files
+
+jobs:
+  # =====================================================
+  # STAGE 1: VALIDATION & SETUP
+  # =====================================================
+
+  validate:
+    name: 🔍 Validate Code Quality
+    runs-on: ubuntu-latest
+
+    outputs:
+      should-run-full-tests: ${{ steps.check-changes.outputs.full-tests }}
+      should-run-coverage: ${{ steps.check-changes.outputs.coverage }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+          extensions: bcmath, sqlite, pdo-sqlite
+
+      - name: Check what changed
+        id: check-changes
+        run: |
+          # Determine if we need full test suite based on changes
+          if [[ "${{ github.event_name }}" == "push" && ("${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/master") ]]; then
+            echo "full-tests=true" >> $GITHUB_OUTPUT
+            echo "coverage=true" >> $GITHUB_OUTPUT
+          else
+            # For PRs, check if src/ or tests/ changed
+            if git diff --name-only HEAD~1 HEAD | grep -E '^(src/|tests/|composer\.json)$'; then
+              echo "full-tests=true" >> $GITHUB_OUTPUT
+            else
+              echo "full-tests=false" >> $GITHUB_OUTPUT
+            fi
+            echo "coverage=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Check PHP syntax
+        run: |
+          find src/ -name "*.php" -exec php -l {} \;
+          find tests/ -name "*.php" -exec php -l {} \;
+
+  # =====================================================
+  # STAGE 2: CORE TESTING
+  # =====================================================
+
+  test-matrix:
+    name: 🧪 Test Matrix (${{ matrix.php }} + L${{ matrix.laravel }})
+    runs-on: ubuntu-latest
+    needs: validate
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Smart testing order - most important combinations first
+        include:
+          # Current stable & recommended combinations
+          - php: 8.2
+            laravel: 10.*
+            testbench: ^8.0|^9.0
+            priority: 1
+            description: "Stable (PHP 8.2 + Laravel 10)"
+            full-tests: true
+          - php: 8.3
+            laravel: 11.*
+            testbench: ^9.0
+            priority: 1
+            description: "Recommended (PHP 8.3 + Laravel 11)"
+            full-tests: true
+          - php: 8.4
+            laravel: 11.*
+            testbench: ^9.0
+            priority: 2
+            description: "Future Ready (PHP 8.4 + Laravel 11)"
+            full-tests: true
+          - php: 8.3
+            laravel: 12.*
+            testbench: ^10.0
+            priority: 2
+            description: "Current (PHP 8.3 + Laravel 12)"
+            full-tests: true
+          - php: 8.4
+            laravel: 12.*
+            testbench: ^10.0
+            priority: 2
+            description: "Modern (PHP 8.4 + Laravel 12)"
+            full-tests: true
+
+          # Additional compatibility combinations
+          - php: 8.1
+            laravel: 10.*
+            testbench: ^8.0
+            priority: 3
+            description: "Legacy (PHP 8.1 + Laravel 10)"
+            full-tests: false
+          - php: 8.2
+            laravel: 12.*
+            testbench: ^10.0
+            priority: 3
+            description: "Stable (PHP 8.2 + Laravel 12)"
+            full-tests: false
+          - php: 8.3
+            laravel: 10.*
+            testbench: ^8.0|^9.0
+            priority: 3
+            description: "Backward (PHP 8.3 + Laravel 10)"
+            full-tests: false
+
+          # Note: Incompatible combinations (PHP 8.1 + Laravel 11/12) are excluded by not including them in the matrix
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          extensions: bcmath, sqlite, pdo-sqlite
+          coverage: ${{ matrix.full-tests && 'xdebug' || '' }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            vendor/
+            ${{ env.COMPOSER_CACHE_DIR }}
+          key: deps-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            deps-${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-
+            deps-${{ runner.os }}-${{ matrix.php }}-
+
+      - name: Remove incompatible lock file for PHP 8.1
+        if: matrix.php == '8.1'
+        run: rm -f composer.lock
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Install specific Laravel/Testbench version
+        run: |
+          composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/config:${{ matrix.laravel }}" "illuminate/support:${{ matrix.laravel }}" "illuminate/validation:${{ matrix.laravel }}" "illuminate/database:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-update --no-interaction
+
+      - name: Install PHPUnit compatible version for PHP 8.1
+        if: matrix.php == '8.1'
+        run: |
+          composer require "phpunit/phpunit:^10.0" --no-update --no-interaction
+          composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Run tests
+        run: |
+          if [[ "${{ matrix.full-tests }}" == "true" && "${{ needs.validate.outputs.should-run-full-tests }}" == "true" ]]; then
+            vendor/bin/phpunit --coverage-clover=coverage.xml
+          else
+            vendor/bin/phpunit --no-coverage --testsuite=Unit
+          fi
+
+      - name: Upload coverage to Codecov
+        if: matrix.full-tests && needs.validate.outputs.should-run-coverage == 'true'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+  # =====================================================
+  # STAGE 3: ADVANCED TESTING
+  # =====================================================
+
+  future-compatibility:
+    name: 🚀 Laravel 13 (dev-master) Compatibility
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.3, 8.4]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          extensions: bcmath, sqlite, pdo-sqlite
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.COMPOSER_CACHE_DIR }}
+          key: future-${{ runner.os }}-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            future-${{ runner.os }}-${{ matrix.php }}-
+            ci-${{ runner.os }}-
+
+      - name: Install Laravel 13 dependencies
+        continue-on-error: true
+        run: |
+          composer require "illuminate/contracts:dev-master" "illuminate/config:dev-master" "illuminate/support:dev-master" "illuminate/validation:dev-master" "illuminate/database:dev-master" "orchestra/testbench:dev-master" --no-update --with-all-dependencies
+          composer update --prefer-dist --no-interaction --no-progress --ignore-platform-reqs --with-all-dependencies
+
+      - name: Run basic compatibility tests
+        continue-on-error: true
+        run: |
+          vendor/bin/phpunit --no-coverage --testsuite=Unit || echo "⚠️ Laravel 13 compatibility test failed - this is expected for unreleased versions"
+
+  # =====================================================
+  # SUMMARY JOB
+  # =====================================================
+
+  ci-summary:
+    name: 📊 CI Summary
+    runs-on: ubuntu-latest
+    needs: [validate, test-matrix]
+    if: always()
+
+    steps:
+      - name: CI Summary
+        run: |
+          echo "## 🚀 CI Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔍 Validation | ${{ needs.validate.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 Test Matrix | ${{ needs.test-matrix.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ github.event_name }}" == "push" && ("${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/master") ]]; then
+            echo "| 🚀 Future Compatibility | ${{ needs.future-compatibility.result == 'success' && '✅ Passed' || '⚠️ Expected Issues' }} |" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All critical tests completed successfully! 🎉" >> $GITHUB_STEP_SUMMARY

@@ -1,5 +1,6 @@
 ## Laravel HashId
-![Test](https://github.com/veelasky/laravel-hashid/workflows/Test/badge.svg)
+![CI/CD Pipeline](https://github.com/veelasky/laravel-hashid/workflows/CI%2FCD%20Pipeline/badge.svg)
+![🔒 Security Scanning](https://github.com/veelasky/laravel-hashid/workflows/%F0%9F%94%92%20Security%20Scanning/badge.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3e929b5327a9453bb0da5cbf2ecb8794)](https://app.codacy.com/gh/veelasky/laravel-hashid?utm_source=github.com&utm_medium=referral&utm_content=veelasky/laravel-hashid&utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/veelasky/laravel-hashid/branch/master/graph/badge.svg?token=t95ymsMyDX)](https://codecov.io/gh/veelasky/laravel-hashid)
 [![Latest Stable Version](https://poser.pugx.org/veelasky/laravel-hashid/v)](//packagist.org/packages/veelasky/laravel-hashid)
@@ -10,15 +11,37 @@
 
 Automatic HashId generator for your eloquent model.
 
+### 🎉 Version 4.x Development & v3.2.0 Released!
+
+**Version 3.2.0** brings **Laravel 11/12 compatibility** and **PHP 8.4 support** with enhanced column selection features.
+
+**Version 4.x** is the current development branch with continued improvements.
+
+**Key Updates:**
+- ✅ Laravel 11 & 12 compatibility
+- ✅ PHP 8.4 support (ready for the future)
+- ✅ PHPUnit 10 & 11 compatibility
+- ✅ **New Column Selection** for `byHash()` and `byHashOrFail()` methods
+- ✅ Enhanced performance and type safety
+- ✅ Maintained backward compatibility
+
+See the [CHANGELOG](CHANGELOG.md) for detailed release notes.
+
 ### Version Compatibilities
 
-| Laravel HashId 	 |   PHP Version      	    |     Laravel 5.*    	|     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|     Laravel 10.*    	|
-|------------------|:-----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
-| `1.x`     	      | `>=7.0`               	 | :white_check_mark: 	| :white_check_mark: 	| :x:                	| :x:                	| :x:                	| :x:                	|
-| `2.x`     	      | `>=7.2` - `<= 8.0`    	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :x: 	|
-| `3.0`     	      | `>=7.4` \|\| `>= 8.0` 	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :x: 	|
-| `3.1`     	      |       `>= 8.0` 	        | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
-| `4.x`     	      |       `>= 8.1` 	        | :x:                	| :x: 	| :x: 	| :x: 	| :x: 	| :white_check_mark: 	|
+| Laravel HashId 	 |   PHP Version      	    |     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|     Laravel 10.*    	|     Laravel 11.*    	|     Laravel 12.*    	|
+|------------------|:-----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
+| `1.x`     	      | `>=7.0`               	 | ✅ 	| ❌                	| ❌                	| ❌                	| ❌                	| ❌                	| ❌                	|
+| `2.x`     	      | `>=7.2` - `<= 8.0`    	 | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌ 	| ❌                	| ❌                	|
+| `3.0`     	      | `>=7.4` \|\| `>= 8.0` 	 | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌ 	| ❌                	| ❌                	|
+| `3.1`     	      |       `>= 8.0` 	        | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌                	| ❌                	|
+| `3.2`     	      |       `>= 8.1` 🌟        | ❌                	| ❌ 	| ❌ 	| ❌ 	| ✅ 	| ✅ 	| ✅ 	|
+| `4.x`     	      |       `>= 8.1` 🚀        | ❌                	| ❌ 	| ❌ 	| ❌ 	| ✅ 	| ✅ 	| ✅ 	|
+
+**🌟 Stable Release (3.2)** - Recommended version with full modern support and column selection features
+**🚀 Development Branch (4.x)** - Current development with latest improvements
+**📋 PHP 8.4 Ready** - Compatible with the latest PHP features
+**🔮 Laravel 12 Ready** - Future-proofed for upcoming Laravel releases
 
 ### Install
 
@@ -56,8 +79,17 @@ $user->hash;               // generate HashId.
 // get user by hashed id.
 $user = User::byHash($hash);
 
+// get user by hashed id with specific columns (NEW FEATURE!).
+$user = User::byHash($hash, ['name', 'email']);
+
+// get user by hashed id with single column (NEW FEATURE!).
+$user = User::byHash($hash, ['name']);
+
 // get user by hashed id, and throw ModelNotFoundException if not present.
 $user = User::byHashOrFail($hash);
+
+// get user by hashed id with specific columns and fail if not found (NEW FEATURE!).
+$user = User::byHashOrFail($hash, ['name', 'email']);
 
 // get hashed id from the primary key.
 User::idToHash($id);
@@ -65,8 +97,14 @@ User::idToHash($id);
 // get ID from hashed string.
 User::hashToId($hash);
 
- // query scope with `byHash` method.
+// query scope with `byHash` method.
 User::query()->byHash($hash);
+
+// 🚀 New Column Selection Feature (v3.2+):
+// - Better performance: Only loads the columns you need
+// - Type safety: Automatic primary key inclusion when needed
+// - Backward compatible: All existing code continues to work unchanged
+// - Smart defaults: ['*'] loads all columns, just like before
 ```
 
 By default, all hash calculation will be calculated at runtime, but sometime you want to persist the hashed id to the database.
