@@ -186,6 +186,7 @@ trait HashableId
      * Ensure primary key is included in column selection.
      *
      * @param array $columns
+     *
      * @return array
      */
     private static function ensurePrimaryKeyInColumns(array $columns): array

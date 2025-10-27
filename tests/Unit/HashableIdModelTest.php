@@ -328,7 +328,7 @@ class HashableIdModelTest extends TestCase
     public function test_by_hash_with_custom_primary_key()
     {
         // Create a mock model with custom primary key to test the fix
-        $mockModel = new class extends HashModel {
+        $mockModel = new class() extends HashModel {
             protected $primaryKey = 'custom_id';
         };
 
