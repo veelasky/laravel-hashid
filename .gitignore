@@ -1,4 +1,5 @@
 /.claude
 /vendor
+/.phpunit.cache
 clover.xml
 .phpunit.result.cache
