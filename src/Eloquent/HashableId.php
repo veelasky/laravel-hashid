@@ -193,8 +193,8 @@ trait HashableId
     {
         $columns = empty($columns) ? ['*'] : $columns;
 
-        if ($columns !== ['*'] && !in_array((new static)->getKeyName(), $columns)) {
-            $columns[] = (new static)->getKeyName();
+        if ($columns !== ['*'] && !in_array((new static())->getKeyName(), $columns)) {
+            $columns[] = (new static())->getKeyName();
         }
 
         return $columns;
