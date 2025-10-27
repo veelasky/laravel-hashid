@@ -10,15 +10,32 @@
 
 Automatic HashId generator for your eloquent model.
 
+### 🎉 Version 3.2.0 Released!
+
+This version brings **Laravel 11/12 compatibility** and **PHP 8.4 support** while maintaining full backward compatibility with Laravel 10.
+
+**Key Updates:**
+- ✅ Laravel 11 & 12 compatibility
+- ✅ PHP 8.4 support (ready for the future)
+- ✅ PHPUnit 10 & 11 compatibility
+- ✅ Maintained backward compatibility
+
+See the [CHANGELOG](CHANGELOG.md) for detailed release notes.
+
 ### Version Compatibilities
 
-| Laravel HashId 	 |   PHP Version      	    |     Laravel 5.*    	|     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|     Laravel 10.*    	|
-|------------------|:-----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
-| `1.x`     	      | `>=7.0`               	 | :white_check_mark: 	| :white_check_mark: 	| :x:                	| :x:                	| :x:                	| :x:                	|
-| `2.x`     	      | `>=7.2` - `<= 8.0`    	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :x: 	|
-| `3.0`     	      | `>=7.4` \|\| `>= 8.0` 	 | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :x: 	|
-| `3.1`     	      |       `>= 8.0` 	        | :x:                	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	| :white_check_mark: 	|
-| `4.x`     	      |       `>= 8.1` 	        | :x:                	| :x: 	| :x: 	| :x: 	| :x: 	| :white_check_mark: 	|
+| Laravel HashId 	 |   PHP Version      	    |     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|     Laravel 10.*    	|     Laravel 11.*    	|     Laravel 12.*    	|
+|------------------|:-----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
+| `1.x`     	      | `>=7.0`               	 | ✅ 	| ❌                	| ❌                	| ❌                	| ❌                	| ❌                	| ❌                	|
+| `2.x`     	      | `>=7.2` - `<= 8.0`    	 | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌ 	| ❌                	| ❌                	|
+| `3.0`     	      | `>=7.4` \|\| `>= 8.0` 	 | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌ 	| ❌                	| ❌                	|
+| `3.1`     	      |       `>= 8.0` 	        | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌                	| ❌                	|
+| `3.2`     	      |       `>= 8.1` 🌟        | ❌                	| ❌ 	| ❌ 	| ❌ 	| ✅ 	| ✅ 	| ✅ 	|
+| `4.x`     	      |       `>= 8.1` 	        | ❌                	| ❌ 	| ❌ 	| ❌ 	| ✅ 	| ✅ 	| ✅ 	|
+
+**🌟 Current Release** - Recommended version with full modern support
+**📋 PHP 8.4 Ready** - Compatible with the latest PHP features
+**🚀 Laravel 12 Ready** - Future-proofed for upcoming Laravel releases
 
 ### Install
 

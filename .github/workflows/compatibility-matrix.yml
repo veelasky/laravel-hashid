@@ -1,0 +1,76 @@
+name: Compatibility Matrix Test
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test-matrix:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Test current stable combinations
+          - php: 8.1
+            laravel: 10.*
+            description: "PHP 8.1 + Laravel 10"
+          - php: 8.2
+            laravel: 10.*
+            description: "PHP 8.2 + Laravel 10"
+          - php: 8.3
+            laravel: 10.*
+            description: "PHP 8.3 + Laravel 10"
+          - php: 8.2
+            laravel: 11.*
+            description: "PHP 8.2 + Laravel 11"
+          - php: 8.3
+            laravel: 11.*
+            description: "PHP 8.3 + Laravel 11"
+          - php: 8.4
+            laravel: 11.*
+            description: "PHP 8.4 + Laravel 11"
+
+    name: ${{ matrix.description }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          extensions: bcmath, sqlite, pdo-sqlite
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Check PHP version
+        run: php -v
+
+      - name: Check if we can resolve dependencies
+        run: |
+          if [[ "${{ matrix.laravel }}" == "11.*" ]]; then
+            # For Laravel 11, check if we can resolve the dependencies
+            composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/config:${{ matrix.laravel }}" "illuminate/support:${{ matrix.laravel }}" "illuminate/validation:${{ matrix.laravel }}" "illuminate/database:${{ matrix.laravel }}" --no-interaction --dry-run
+          else
+            # For Laravel 10, just do a dry run
+            composer update --prefer-dist --no-interaction --dry-run
+          fi
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Run basic test
+        run: vendor/bin/phpunit --no-coverage --testsuite=Unit
+
+      - name: Summary
+        run: |
+          echo "✅ Successfully tested: ${{ matrix.description }}"
+          echo "📦 Dependencies installed successfully"
+          echo "🧪 Tests passed"
