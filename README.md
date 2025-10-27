@@ -1,6 +1,7 @@
-## Laravel HashId
-![CI/CD Pipeline](https://github.com/veelasky/laravel-hashid/workflows/CI%2FCD%20Pipeline/badge.svg)
-![🔒 Security Scanning](https://github.com/veelasky/laravel-hashid/workflows/%F0%9F%94%92%20Security%20Scanning/badge.svg)
+# Laravel HashId
+
+[![CI/CD Pipeline](https://github.com/veelasky/laravel-hashid/workflows/CI%2FCD%20Pipeline/badge.svg)
+[![🔒 Security Scanning](https://github.com/veelasky/laravel-hashid/workflows/%F0%9F%94%92%20Security%20Scanning/badge.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3e929b5327a9453bb0da5cbf2ecb8794)](https://app.codacy.com/gh/veelasky/laravel-hashid?utm_source=github.com&utm_medium=referral&utm_content=veelasky/laravel-hashid&utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/veelasky/laravel-hashid/branch/master/graph/badge.svg?token=t95ymsMyDX)](https://codecov.io/gh/veelasky/laravel-hashid)
 [![Latest Stable Version](https://poser.pugx.org/veelasky/laravel-hashid/v)](//packagist.org/packages/veelasky/laravel-hashid)
@@ -9,207 +10,204 @@
 [![Dependents](https://poser.pugx.org/veelasky/laravel-hashid/dependents)](//packagist.org/packages/veelasky/laravel-hashid)
 [![License](https://poser.pugx.org/veelasky/laravel-hashid/license)](//packagist.org/packages/veelasky/laravel-hashid)
 
-Automatic HashId generator for your eloquent model.
+> Automatic HashId generator for your Laravel Eloquent models.
 
-### 🎉 Version 4.x Development & v3.2.0 Released!
+## About
 
-**Version 3.2.0** brings **Laravel 11/12 compatibility** and **PHP 8.4 support** with enhanced column selection features.
+Laravel HashId provides an elegant way to add hashed IDs to your Eloquent models. It generates unique, non-sequential hashes for your model IDs and provides convenient methods to work with them.
 
-**Version 4.x** is the current development branch with continued improvements.
+## ✨ Latest Features
 
-**Key Updates:**
-- ✅ Laravel 11 & 12 compatibility
-- ✅ PHP 8.4 support (ready for the future)
-- ✅ PHPUnit 10 & 11 compatibility
-- ✅ **New Column Selection** for `byHash()` and `byHashOrFail()` methods
-- ✅ Enhanced performance and type safety
-- ✅ Maintained backward compatibility
+**Version 3.2.0** introduces powerful column selection capabilities along with full Laravel 11/12 and PHP 8.4 compatibility.
 
-See the [CHANGELOG](CHANGELOG.md) for detailed release notes.
+### 🔥 Column Selection API (New in v3.2.0)
 
-### Version Compatibilities
+```php
+// Get user by hash with specific columns (better performance!)
+$user = User::byHash($hash, ['name', 'email']);
 
-| Laravel HashId 	 |   PHP Version      	    |     Laravel 6.*    	|     Laravel 7.*    	|     Laravel 8.*    	|     Laravel 9.*    	|     Laravel 10.*    	|     Laravel 11.*    	|     Laravel 12.*    	|
-|------------------|:-----------------------:|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|:------------------:	|
-| `1.x`     	      | `>=7.0`               	 | ✅ 	| ❌                	| ❌                	| ❌                	| ❌                	| ❌                	| ❌                	|
-| `2.x`     	      | `>=7.2` - `<= 8.0`    	 | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌ 	| ❌                	| ❌                	|
-| `3.0`     	      | `>=7.4` \|\| `>= 8.0` 	 | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌ 	| ❌                	| ❌                	|
-| `3.1`     	      |       `>= 8.0` 	        | ✅ 	| ✅ 	| ✅ 	| ✅ 	| ✅ 	| ❌                	| ❌                	|
-| `3.2`     	      |       `>= 8.1` 🌟        | ❌                	| ❌ 	| ❌ 	| ❌ 	| ✅ 	| ✅ 	| ✅ 	|
-| `4.x`     	      |       `>= 8.1` 🚀        | ❌                	| ❌ 	| ❌ 	| ❌ 	| ✅ 	| ✅ 	| ✅ 	|
+// Get user by hash with single column
+$user = User::byHash($hash, ['name']);
 
-**🌟 Stable Release (3.2)** - Recommended version with full modern support and column selection features
-**🚀 Development Branch (4.x)** - Current development with latest improvements
-**📋 PHP 8.4 Ready** - Compatible with the latest PHP features
-**🔮 Laravel 12 Ready** - Future-proofed for upcoming Laravel releases
+// Column selection with exception handling
+$user = User::byHashOrFail($hash, ['name', 'email']);
+```
 
-### Install
+**Benefits:**
+- 🚀 **Better Performance** - Load only the columns you need
+- 🔒 **Type Safety** - Automatic primary key inclusion when required
+- 🔄 **Backward Compatible** - All existing code works unchanged
+- 🎯 **Smart Defaults** - `['*']` loads all columns, just like before
+
+## Compatibility
+
+### Modern Laravel Support (Recommended)
+
+| Laravel HashId | PHP Version | Laravel 10 | Laravel 11 | Laravel 12 |
+|----------------|-------------|-------------|-------------|-------------|
+| **3.2** 🌟      | **≥ 8.1**   | ✅          | ✅          | ✅          |
+| **4.x** 🚀      | **≥ 8.1**   | ✅          | ✅          | ✅          |
+
+- 🌟 **Stable Release (3.2)** - Recommended for production
+- 🚀 **Development Branch (4.x)** - Latest improvements
+
+### Full Version Matrix
+
+| Laravel HashId | PHP Version | Laravel 6 | Laravel 7 | Laravel 8 | Laravel 9 | Laravel 10 | Laravel 11 | Laravel 12 |
+|----------------|-------------|-----------|-----------|-----------|-----------|-------------|-------------|-------------|
+| **1.x**         | `≥ 7.0`   | ✅         | ❌         | ❌         | ❌         | ❌         | ❌         | ❌         |
+| **2.x**         | `≥ 7.2`   | ❌         | ✅         | ✅         | ✅         | ❌         | ❌         | ❌         |
+| **3.0**         | `≥ 7.4`   | ❌         | ✅         | ✅         | ✅         | ❌         | ❌         | ❌         |
+| **3.1**         | `≥ 8.0`   | ❌         | ✅         | ✅         | ✅         | ✅         | ❌         | ❌         |
+| **3.2** 🌟      | `≥ 8.1`   | ❌         | ❌         | ❌         | ❌         | ✅         | ✅         | ✅         |
+| **4.x** 🚀      | `≥ 8.1`   | ❌         | ❌         | ❌         | ❌         | ✅         | ✅         | ✅         |
+
+**📊 Version Recommendations:**
+- **Laravel 6-9** → Use `3.0` or `3.1`
+- **Laravel 10+** → Use `3.2` (stable) or `4.x` (development)
+- **Latest features** → Use `3.2+` with column selection support
+
+## Installation
 
 ```bash
 composer require veelasky/laravel-hashid
 ```
 
-With laravel package auto discovery, this will automatically add this package to your laravel application.
+With Laravel's package auto-discovery, the package will be automatically registered.
 
-### TLDR
+## Quick Start
 
-Simply add `HashableId` trait on any of your eloquent model you are intending to use with HashId.
+Simply add the `HashableId` trait to any Eloquent model you want to use with HashId:
 
-Example:
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Veelasky\LaravelHashId\Eloquent\HashableId;
 
-class User extends Model {
+class User extends Model
+{
     use HashableId;
-    ...
 }
 ```
 
-### Usage
+## Usage Examples
 
-#### With Eloquent Model
+### Basic Usage
+
 ```php
+$user = User::find(1);           // Find user by ID
+$user->hash;                     // Get HashId automatically
 
-$user = User::find(1);     // instance of user.
-$user->hash;               // generate HashId.
-
-// Database operation
-
-// get user by hashed id.
+// Find by HashId
 $user = User::byHash($hash);
+$user = User::byHashOrFail($hash); // Throws exception if not found
 
-// get user by hashed id with specific columns (NEW FEATURE!).
+// Convert between ID and HashId
+$hashedId = User::idToHash($id);
+$originalId = User::hashToId($hash);
+
+// Query scope
+User::query()->byHash($hash)->get();
+```
+
+### Column Selection (New in v3.2)
+
+```php
+// Load only specific columns for better performance
 $user = User::byHash($hash, ['name', 'email']);
 
-// get user by hashed id with single column (NEW FEATURE!).
+// Single column selection
 $user = User::byHash($hash, ['name']);
 
-// get user by hashed id, and throw ModelNotFoundException if not present.
-$user = User::byHashOrFail($hash);
-
-// get user by hashed id with specific columns and fail if not found (NEW FEATURE!).
+// Column selection with exception handling
 $user = User::byHashOrFail($hash, ['name', 'email']);
-
-// get hashed id from the primary key.
-User::idToHash($id);
-
-// get ID from hashed string.
-User::hashToId($hash);
-
-// query scope with `byHash` method.
-User::query()->byHash($hash);
-
-// 🚀 New Column Selection Feature (v3.2+):
-// - Better performance: Only loads the columns you need
-// - Type safety: Automatic primary key inclusion when needed
-// - Backward compatible: All existing code continues to work unchanged
-// - Smart defaults: ['*'] loads all columns, just like before
 ```
 
-By default, all hash calculation will be calculated at runtime, but sometime you want to persist the hashed id to the database.
+### Persisting HashId to Database
 
-> NOTE: when using persisting model, all database query will be check againts the table itself, except: `$model->hash` will always be calculated at runtime.
 ```php
-class User extends Model {
+class User extends Model
+{
     use HashableId;
 
-    // add this property to your model if you want to persist to the database.
-    protected $shouldHashPersist = true;
-
-    // by default, the persisted value will be stored in `hashid` column
-    // override column name to your desired name.
-    protected $hashColumnName = 'hashid';
-    ...
+    protected $shouldHashPersist = true;  // Persist hash to database
+    protected $hashColumnName = 'hashid';  // Custom column name (optional)
 }
-
 ```
 
-#### Salt
+### Route Model Binding
 
-The salt is generated automatically based on your app key and hash_alphabet. If you need to use the same salt between different projects, you can set the `HASHID_SALT` environment variable.
-
-#### Route binding
-
-When HashableId trait is used, base `getRouteKey()` and `resolveRouteBinding()` are overwritten to use the HashId as route key.
+The trait automatically overwrites route methods to use HashId:
 
 ```php
-use App\Models\User;
+Route::get('/users/{user}', [UserController::class, 'show']);
 
-class UserController extends Controller
+class UserController
 {
-    /**
-     * Route /users/{user}
-     * Ex: GET /users/k1jTdv6l
-     */
     public function show(User $user)
     {
-        ...
+        // $user resolves automatically by HashId
+        // Example URL: /users/k1jTdv6l
     }
 }
 ```
 
-#### In-Depth Coverage
-
-This package use repository pattern to store all instantiated implementation of `HashId\HashId` class, this to achieve different hash result on every eloquent models defined with `HashableId` trait.
-
-```php
-// using facade.
-HashId::hashToId($hash, User::class)      // same as User::hashToId($hash);
-HashId::idToHash($id, User::class)        // same as User::idToHash($hash);
-
-// HashId facade class is an implementation of \Veelasky\Laravel\HashId\Repository
-```
-
-However you can opt-out to not using any eloquent model or implementing your own logic to the repository.
-
-```php
-HashId::make($key, $salt);              // will return \HashId\HashId class.
-
-// once you instantiated the object, you can retrieve it on your next operation
-HashId::get($key);
-```
-
-If you're using single table inheritance model, where you want to has the same calculated hash across all inherited models, use `$hashKey` property, this will result the calculation remain the same across all inherited model.
-
-```php
-class User extends Model {
-    protected $hashKey = 'somethingUnique';
-}
-
-class Customer extends User {
-
-}
-
-$customer = Customer::find(1);
-$user = User::find(1);
-
-$user->hash; // will be equal to $customer->hash
-```
-
-You can also specify the length and characters of the hashed Id with `HASHID_LENGTH` and `HASHID_ALPHABET` environment variable respectively, or you can publish the configuration file using this command:
-
-```bash
-php artisan vendor:publish --tag=laravel-hashid-config
-```
-
-#### Extra: Validation Rules
-
-You can also use this as validation rules, simply add this rule to your validator.
+### Validation Rules
 
 ```php
 use App\Models\User;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
-...
-Validator::make([
-    'id' => $hashedId
-], [
-    'id' => ['required', new ExistsByHash(User::class)],
+$request->validate([
+    'user_id' => ['required', new ExistsByHash(User::class)],
 ]);
-...
 ```
 
-#### License
+### Advanced Usage
 
-MIT License
+#### Repository Pattern Access
+
+```php
+// Using the HashId facade
+$hashedId = HashId::idToHash($id, User::class);
+$originalId = HashId::hashToId($hash, User::class);
+
+// Manual hash ID creation
+$hashId = HashId::make('custom-key', 'custom-salt');
+```
+
+#### Shared Hash Across Models
+
+```php
+class User extends Model
+{
+    protected $hashKey = 'shared-hash-key';
+}
+
+class Customer extends User { }
+
+$customer = Customer::find(1);
+$user = User::find(1);
+
+// Both will have the same hash
+echo $customer->hash === $user->hash; // true
+```
+
+## Configuration
+
+You can configure HashId behavior using environment variables:
+
+```env
+HASHID_SALT=your-custom-salt
+HASHID_LENGTH=10
+HASHID_ALPHABET=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
+```
+
+Or publish the configuration file:
+
+```bash
+php artisan vendor:publish --tag=laravel-hashid-config
+```
+
+## License
+
+MIT License. Feel free to use this package in your projects!
