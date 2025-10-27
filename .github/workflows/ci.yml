@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ master, main ]
 
+# Permissions for the workflow
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 # Global environment variables
 env:
   COMPOSER_CACHE_DIR: ~/.cache/composer/files
@@ -127,12 +133,7 @@ jobs:
             description: "Backward (PHP 8.3 + Laravel 10)"
             full-tests: false
 
-        exclude:
-          # Exclude incompatible combinations
-          - php: 8.1
-            laravel: 11.*
-          - php: 8.1
-            laravel: 12.*  # Laravel 12 requires PHP 8.2+
+          # Note: Incompatible combinations (PHP 8.1 + Laravel 11/12) are excluded by not including them in the matrix
 
     steps:
       - name: Checkout code
