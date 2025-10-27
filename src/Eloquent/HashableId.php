@@ -43,27 +43,46 @@ trait HashableId
     /**
      * Get Model by hash.
      *
-     * @param $hash
+     * @param string|int $hash
+     * @param array $columns
      *
      * @return self|null
      */
-    public static function byHash($hash): ?self
+    public static function byHash($hash, array $columns = ['*']): ?self
     {
-        return self::query()->byHash($hash)->first();
+        return self::query()->select(self::ensurePrimaryKeyInColumns($columns))->byHash($hash)->first();
     }
 
     /**
      * Get model by hash or fail.
      *
-     * @param $hash
+     * @param string|int $hash
+     * @param array $columns
      *
      * @return self
      *
      * @throw \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public static function byHashOrFail($hash): self
+    public static function byHashOrFail($hash, array $columns = ['*']): self
     {
-        return self::query()->byHash($hash)->firstOrFail();
+        return self::query()->select(self::ensurePrimaryKeyInColumns($columns))->byHash($hash)->firstOrFail();
+    }
+
+    /**
+     * Ensure primary key is included in column selection.
+     *
+     * @param array $columns
+     * @return array
+     */
+    private static function ensurePrimaryKeyInColumns(array $columns): array
+    {
+        $columns = empty($columns) ? ['*'] : $columns;
+
+        if ($columns !== ['*'] && !in_array((new static)->getKeyName(), $columns)) {
+            $columns[] = (new static)->getKeyName();
+        }
+
+        return $columns;
     }
 
     /**

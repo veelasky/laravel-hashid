@@ -73,8 +73,17 @@ $user->hash;               // generate HashId.
 // get user by hashed id.
 $user = User::byHash($hash);
 
+// get user by hashed id with specific columns.
+$user = User::byHash($hash, ['name', 'email']);
+
+// get user by hashed id with single column.
+$user = User::byHash($hash, ['name']);
+
 // get user by hashed id, and throw ModelNotFoundException if not present.
 $user = User::byHashOrFail($hash);
+
+// get user by hashed id with specific columns and fail if not found.
+$user = User::byHashOrFail($hash, ['name', 'email']);
 
 // get hashed id from the primary key.
 User::idToHash($id);
@@ -82,8 +91,11 @@ User::idToHash($id);
 // get ID from hashed string.
 User::hashToId($hash);
 
- // query scope with `byHash` method.
+// query scope with `byHash` method.
 User::query()->byHash($hash);
+
+// Note: The new column selection feature provides better performance by only loading the columns you need,
+// and improved type safety compared to chaining ->select() manually. All existing code continues to work unchanged.
 ```
 
 By default, all hash calculation will be calculated at runtime, but sometime you want to persist the hashed id to the database.
