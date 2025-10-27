@@ -1,7 +1,7 @@
 # Laravel HashId
 
-[![CI/CD Pipeline](https://github.com/veelasky/laravel-hashid/workflows/CI%2FCD%20Pipeline/badge.svg)
-[![🔒 Security Scanning](https://github.com/veelasky/laravel-hashid/workflows/%F0%9F%94%92%20Security%20Scanning/badge.svg)
+![CI/CD Pipeline](https://github.com/veelasky/laravel-hashid/workflows/CI%2FCD%20Pipeline/badge.svg)
+![🔒 Security Scanning](https://github.com/veelasky/laravel-hashid/workflows/%F0%9F%94%92%20Security%20Scanning/badge.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3e929b5327a9453bb0da5cbf2ecb8794)](https://app.codacy.com/gh/veelasky/laravel-hashid?utm_source=github.com&utm_medium=referral&utm_content=veelasky/laravel-hashid&utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/veelasky/laravel-hashid/branch/master/graph/badge.svg?token=t95ymsMyDX)](https://codecov.io/gh/veelasky/laravel-hashid)
 [![Latest Stable Version](https://poser.pugx.org/veelasky/laravel-hashid/v)](//packagist.org/packages/veelasky/laravel-hashid)
