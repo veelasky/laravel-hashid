@@ -14,5 +14,4 @@ class HashModelWithFallback extends BasicModel
      * @var bool
      */
     protected $bindingFallback = true;
-
 }
