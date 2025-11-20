@@ -18,7 +18,22 @@ Laravel HashId provides an elegant way to add hashed IDs to your Eloquent models
 
 ## ✨ Latest Features
 
-**Version 3.2.0** introduces powerful column selection capabilities along with full Laravel 11/12 and PHP 8.4 compatibility.
+**Version 3.2.2** introduces enhanced secure route model binding along with powerful column selection capabilities and full Laravel 11/12 and PHP 8.4 compatibility.
+
+### 🔒 Secure Route Model Binding (New in v3.2.2)
+
+**Security improvement:** Route model binding now only accepts valid hash values by default, preventing predictable ID enumeration attacks:
+
+```php
+class User extends Model
+{
+    use HashableId;
+    // Default: only hash resolution, numeric IDs return 404
+}
+
+// ✅ Secure: /users/k1jTdv6l works
+// ❌ Blocked: /users/1 returns 404 (prevents ID enumeration)
+```
 
 ### 🔥 Column Selection API (New in v3.2.0)
 
@@ -38,6 +53,7 @@ $user = User::byHashOrFail($hash, ['name', 'email']);
 - 🔒 **Type Safety** - Automatic primary key inclusion when required
 - 🔄 **Backward Compatible** - All existing code works unchanged
 - 🎯 **Smart Defaults** - `['*']` loads all columns, just like before
+- 🛡️ **Enhanced Security** - Prevents ID enumeration attacks by default
 
 ## Compatibility
 
@@ -147,8 +163,49 @@ class UserController
     {
         // $user resolves automatically by HashId
         // Example URL: /users/k1jTdv6l
+        // Numeric IDs like /users/1 will return 404 by default (secure!)
     }
 }
+```
+
+#### 🔒 Secure Route Model Binding (Default)
+
+By default, route model binding only accepts valid hash values and returns 404 for plain numeric IDs, preventing predictable ID enumeration attacks:
+
+```php
+class User extends Model
+{
+    use HashableId;
+    // $bindingFallback = false; // Default behavior - only hash resolution
+}
+
+// ✅ This works: /users/k1jTdv6l
+// ❌ This returns 404: /users/1 (prevents ID enumeration)
+```
+
+#### Optional Fallback to Numeric ID
+
+If you need to support both hash and numeric ID resolution (not recommended for production), you can enable the fallback:
+
+```php
+class User extends Model
+{
+    use HashableId;
+
+    protected $bindingFallback = true; // Allow both hash and numeric ID resolution
+}
+
+// ✅ Both work: /users/k1jTdv6l AND /users/1
+```
+
+#### Custom Field Binding
+
+Custom field binding always uses Laravel's default behavior:
+
+```php
+Route::get('/users/{user:slug}', [UserController::class, 'show']);
+
+// This will resolve by 'slug' field, not by hash
 ```
 
 ### Validation Rules
