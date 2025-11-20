@@ -24,6 +24,7 @@ trait HashableId
             ? $this->bindingFallback
             : false;
     }
+
     /**
      * Get Model by hashed key.
      *
