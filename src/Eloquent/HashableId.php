@@ -14,6 +14,17 @@ use Veelasky\LaravelHashId\Repository;
 trait HashableId
 {
     /**
+     * Determine if route model binding should fallback to numeric ID resolution.
+     *
+     * @return bool
+     */
+    public function shouldBindingFallback(): bool
+    {
+        return property_exists($this, 'bindingFallback')
+            ? $this->bindingFallback
+            : false;
+    }
+    /**
      * Get Model by hashed key.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -33,11 +44,15 @@ trait HashableId
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        if ($field || is_numeric($value)) {
+        if ($field) {
             return parent::resolveRouteBinding($value, $field);
         }
 
-        return $this->byHash($value);
+        if ($this->shouldBindingFallback() && is_numeric($value)) {
+            return parent::resolveRouteBinding($value, $field);
+        }
+
+        return $this->byHashOrFail($value);
     }
 
     /**
