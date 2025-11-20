@@ -12,6 +12,7 @@ use Tests\Models\BasicModel;
 use Tests\Models\CustomKeyModel;
 use Tests\Models\CustomSaltModel;
 use Tests\Models\HashModel;
+use Tests\Models\HashModelWithFallback;
 use Tests\Models\IllegalHashModel;
 use Tests\Models\PersistingModel;
 use Tests\Models\PersistingModelWithCustomName;
@@ -192,11 +193,13 @@ class HashableIdModelTest extends TestCase
         $m = new HashModel();
         $m->save();
 
+        // Hash-based resolution should work
         $resolved = $m->resolveRouteBinding($m->hash);
         $this->assertTrue($resolved->is($m));
 
-        $resolved = $m->resolveRouteBinding($m->getKey());
-        $this->assertTrue($resolved->is($m));
+        // Numeric ID resolution should fail by default (throws ModelNotFoundException)
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $m->resolveRouteBinding($m->getKey());
     }
 
     public function test_by_hash_with_column_selection()
@@ -338,6 +341,49 @@ class HashableIdModelTest extends TestCase
         // This test demonstrates that the implementation now works with any primary key name
         // The actual database query would use the correct key name from getKeyName()
         $this->assertTrue(true); // Placeholder for demonstrating the concept
+    }
+
+    public function test_route_binding_with_fallback_enabled()
+    {
+        $m = new HashModelWithFallback();
+        $m->custom_name = 'Test Model with Fallback';
+        $m->save();
+
+        // Hash-based resolution should work
+        $resolved = $m->resolveRouteBinding($m->hash);
+        $this->assertTrue($resolved->is($m));
+
+        // Numeric ID resolution should also work when fallback is enabled
+        $resolved = $m->resolveRouteBinding($m->getKey());
+        $this->assertTrue($resolved->is($m));
+    }
+
+    public function test_route_binding_with_custom_field()
+    {
+        $m = new HashModel();
+        $m->custom_name = 'Test Model';
+        $m->save();
+
+        // Custom field binding should always use parent implementation
+        $resolved = $m->resolveRouteBinding($m->custom_name, 'custom_name');
+        $this->assertTrue($resolved->is($m));
+
+        // Even with fallback enabled, custom field should use parent implementation
+        $fallbackModel = new HashModelWithFallback();
+        $fallbackModel->custom_name = 'Fallback Model';
+        $fallbackModel->save();
+
+        $resolved = $fallbackModel->resolveRouteBinding($fallbackModel->custom_name, 'custom_name');
+        $this->assertTrue($resolved->is($fallbackModel));
+    }
+
+    public function test_route_binding_hash_not_found_throws_exception()
+    {
+        $nonExistentHash = 'non-existent-hash';
+
+        // Both models should throw ModelNotFoundException for non-existent hashes
+        $this->expectException(ModelNotFoundException::class);
+        HashModel::byHashOrFail($nonExistentHash);
     }
 
     protected function getRepository(): Repository
