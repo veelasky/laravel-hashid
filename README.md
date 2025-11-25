@@ -18,7 +18,7 @@ Laravel HashId provides an elegant way to add hashed IDs to your Eloquent models
 
 ## ✨ Latest Features
 
-**Version 3.2.2** introduces enhanced secure route model binding along with powerful column selection capabilities and full Laravel 11/12 and PHP 8.4 compatibility.
+**Version 3.2.3** introduces automatic route key generation, eliminating boilerplate code, along with enhanced secure route model binding and powerful column selection capabilities for full Laravel 11/12 and PHP 8.4 compatibility.
 
 ### 🔒 Secure Route Model Binding (New in v3.2.2)
 
@@ -48,12 +48,40 @@ $user = User::byHash($hash, ['name']);
 $user = User::byHashOrFail($hash, ['name', 'email']);
 ```
 
+### 🚀 Automatic Route Key Generation (New in v3.2.3)
+
+**Zero boilerplate:** The `HashableId` trait now automatically provides `getRouteKey()` method:
+
+```php
+class User extends Model
+{
+    use HashableId;
+    // getRouteKey() automatically returns hash - no implementation needed!
+}
+
+route('users.show', $user); // Automatically generates: /users/k1jTdv6l
+```
+
+### 🔥 Column Selection API (New in v3.2.0)
+
+```php
+// Get user by hash with specific columns (better performance!)
+$user = User::byHash($hash, ['name', 'email']);
+
+// Get user by hash with single column
+$user = User::byHash($hash, ['name']);
+
+// Column selection with exception handling
+$user = User::byHashOrFail($hash, ['name', 'email']);
+```
+
 **Benefits:**
 - 🚀 **Better Performance** - Load only the columns you need
 - 🔒 **Type Safety** - Automatic primary key inclusion when required
 - 🔄 **Backward Compatible** - All existing code works unchanged
 - 🎯 **Smart Defaults** - `['*']` loads all columns, just like before
 - 🛡️ **Enhanced Security** - Prevents ID enumeration attacks by default
+- ✅ **Zero Boilerplate** - No manual `getRouteKey()` implementation needed
 
 ## Compatibility
 
@@ -207,6 +235,41 @@ Route::get('/users/{user:slug}', [UserController::class, 'show']);
 
 // This will resolve by 'slug' field, not by hash
 ```
+
+#### 🚀 Automatic Route Key Generation (New in v3.2.3)
+
+The `HashableId` trait now automatically provides `getRouteKey()` method, so you don't need to implement it manually:
+
+```php
+class User extends Model
+{
+    use HashableId;
+    // No manual getRouteKey() implementation needed!
+}
+
+// Route generation now automatically uses hash
+route('users.show', $user); // Generates: /users/k1jTdv6l
+```
+
+**Before this version:**
+```php
+class User extends Model
+{
+    use HashableId;
+
+    // Manual implementation was required
+    public function getRouteKey() {
+        return $this->hash;
+    }
+}
+```
+
+**Benefits:**
+- ✅ **Zero Boilerplate** - No manual `getRouteKey()` implementation needed
+- 🔄 **Automatic** - Works out of the box with the trait
+- 🛡️ **Consistent** - Uses the same hash values as route resolution
+- 🔧 **Configurable** - Respects custom hash column names
+- ⬅️ **Backward Compatible** - Existing custom implementations still work
 
 ### Validation Rules
 
