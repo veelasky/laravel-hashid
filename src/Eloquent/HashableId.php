@@ -149,6 +149,22 @@ trait HashableId
     }
 
     /**
+     * register boot trait method.
+     *
+     * @return void
+     */
+    public static function bootHashableId()
+    {
+        self::created(function ($model) {
+            if ($model->shouldHashPersist()) {
+                $model->{$model->getHashColumnName()} = self::idToHash($model->getKey());
+
+                $model->save();
+            }
+        });
+    }
+
+    /**
      * Get HashId column name.
      *
      * @return string
@@ -170,22 +186,6 @@ trait HashableId
         return $this->shouldHashPersist()
             ? $this->{$this->getHashColumnName()}
             : $this->hash;
-    }
-
-    /**
-     * register boot trait method.
-     *
-     * @return void
-     */
-    public static function bootHashableId()
-    {
-        self::created(function ($model) {
-            if ($model->shouldHashPersist()) {
-                $model->{$model->getHashColumnName()} = self::idToHash($model->getKey());
-
-                $model->save();
-            }
-        });
     }
 
     /**
