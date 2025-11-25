@@ -386,6 +386,59 @@ class HashableIdModelTest extends TestCase
         HashModel::byHashOrFail($nonExistentHash);
     }
 
+    public function test_get_route_key_returns_hash()
+    {
+        $model = new HashModel();
+        $model->save();
+
+        // Test that getRouteKey returns the hash value
+        $this->assertEquals($model->hash, $model->getRouteKey());
+        $this->assertNotEquals($model->getKey(), $model->getRouteKey());
+    }
+
+    public function test_get_route_key_with_persisting_model()
+    {
+        $model = new PersistingModel();
+        $model->save();
+
+        // For persisting models, it should return the stored hash column value
+        $this->assertEquals($model->hashid, $model->getRouteKey());
+    }
+
+    public function test_get_route_key_with_custom_column_name()
+    {
+        $model = new PersistingModelWithCustomName();
+        $model->save();
+
+        // Should return the custom hash column value
+        $this->assertEquals($model->custom_name, $model->getRouteKey());
+    }
+
+    public function test_get_route_key_returns_null_for_non_existing_model()
+    {
+        $model = new HashModel();
+
+        // Should return null for non-existing model (hash attribute returns null)
+        $this->assertNull($model->getRouteKey());
+    }
+
+    public function test_get_route_key_with_custom_hash_key_model()
+    {
+        $model = new CustomKeyModel();
+        $model->save();
+
+        $this->assertEquals($model->hash, $model->getRouteKey());
+    }
+
+    public function test_get_route_key_consistency_with_hash_attribute()
+    {
+        $model = new HashModel();
+        $model->save();
+
+        // getRouteKey should return the same value as the hash attribute
+        $this->assertEquals($model->hash, $model->getRouteKey());
+    }
+
     protected function getRepository(): Repository
     {
         return app('app.hashid');

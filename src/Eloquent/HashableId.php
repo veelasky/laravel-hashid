@@ -149,18 +149,6 @@ trait HashableId
     }
 
     /**
-     * Get HashId column name.
-     *
-     * @return string
-     */
-    public function getHashColumnName(): string
-    {
-        return property_exists($this, 'hashColumnName')
-            ? $this->hashColumnName
-            : 'hashid';
-    }
-
-    /**
      * register boot trait method.
      *
      * @return void
@@ -174,6 +162,30 @@ trait HashableId
                 $model->save();
             }
         });
+    }
+
+    /**
+     * Get HashId column name.
+     *
+     * @return string
+     */
+    public function getHashColumnName(): string
+    {
+        return property_exists($this, 'hashColumnName')
+            ? $this->hashColumnName
+            : 'hashid';
+    }
+
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKey()
+    {
+        return $this->shouldHashPersist()
+            ? $this->{$this->getHashColumnName()}
+            : $this->hash;
     }
 
     /**
