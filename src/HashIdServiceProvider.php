@@ -31,7 +31,7 @@ class HashIdServiceProvider extends LaravelServiceProvider
             'hashid'
         );
 
-        $this->app->singleton('app.hashid', function () {
+        $this->app->scoped('app.hashid', function () {
             return new Repository();
         });
         $this->app->alias('app.hashid', Repository::class);
